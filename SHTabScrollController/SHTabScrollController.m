@@ -46,24 +46,25 @@
 @property (nonatomic, assign, getter=isUserTouched) BOOL userTouched;
 @property (nonatomic, strong) UIView *lineView;
 
-@property (nonatomic, strong) UIColor *normalTitleColor;
-@property (nonatomic, strong) UIColor *selectedTitleColor;
-
-
 @end
 
 @implementation SHTabScrollController
 
 # pragma mark - initialization
 
-+(SHTabScrollController *)setupTitles:(NSArray *)titles controllers:(NSArray *)controllers tabIndexHandle:(SHTabIndexHandle)tabIndexHandle {
++ (SHTabScrollController *)setupTitles:(NSArray *)titles controllers:(NSArray *)controllers {
     if (titles.count != controllers.count) {
-        NSLog(@"Please checkout your dataSource, titles count is %ld, controllers count is %ld", titles.count, controllers.count);
+        NSLog(@"Please checkout your dataSource, titles count is %ld, but controllers count is %ld", titles.count, controllers.count);
         return nil;
     }
     SHTabScrollController * tabScrollController = [[SHTabScrollController alloc] init];
     tabScrollController.controllersArray = controllers;
     tabScrollController.tabButtonTitlesArray = titles;
+    return tabScrollController;
+}
+
++ (SHTabScrollController *)setupTitles:(NSArray *)titles controllers:(NSArray *)controllers tabIndexHandle:(SHTabIndexHandle)tabIndexHandle {
+    SHTabScrollController *tabScrollController = [SHTabScrollController setupTitles:titles controllers:controllers];
     if (tabIndexHandle) {
         tabScrollController.tabIndexHandle = tabIndexHandle;
     }
@@ -97,6 +98,15 @@
     __block CGFloat tabButtonWidth = SCREEN_WIDTH / self.tabButtonTitlesArray.count;
     [self.tabButtonTitlesArray enumerateObjectsUsingBlock:^(NSString *title, NSUInteger idx, BOOL * _Nonnull stop) {
         SHTabButton *tabButton = [[SHTabButton alloc] initWithTitle:title normalTitleColor:self.normalTitleColor selectedTitleColor:self.selectedTitleColor];
+        if (self.tabTitleFont) {
+            tabButton.defaultFont = self.tabTitleFont;
+        }
+        if (self.normalTabBottomLineColor) {
+            tabButton.normalBottomLineColor = self.normalTabBottomLineColor;
+        }
+        if (self.selectedTabBottomLineColor) {
+            tabButton.selectedBottomLineColor = self.selectedTabBottomLineColor;
+        }
         tabButton.frame = CGRectMake(tabButtonWidth * idx, 0, tabButtonWidth, self.tabButtonHeight);
         tabButton.tag = idx;
         [tabButton addTarget:self action:@selector(tabButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -124,6 +134,8 @@
 
 #pragma mark - Private API
 
+#pragma mark - Published API
+
 #pragma mark - ScrollViewAnimation
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -146,7 +158,10 @@
 }
 
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
-    if (self.userTouched) self.userTouched = NO;
+    self.lineView.hidden = YES;
+    if (self.userTouched) {
+        self.userTouched = NO;
+    }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -194,7 +209,7 @@
 - (UIView *)lineView {
     if (!_lineView) {
         _lineView = [[UIView alloc] initWithFrame:CGRectMake(0, self.tabButtonHeight - 2, self.view.bounds.size.width / self.tabButtonsArray.count, 2)];
-        _lineView.backgroundColor = REDCOLOR;
+        _lineView.backgroundColor = self.selectedTabBottomLineColor ? :REDCOLOR;
         _lineView.hidden = YES;
     }
     return _lineView;

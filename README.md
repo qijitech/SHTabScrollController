@@ -13,7 +13,7 @@
 With [CocoaPods](http://cocoapods.org/), add this line to your `Podfile`.
 
 ```
-pod 'SHTabScrollController'
+pod 'SHTabScrollController', '~> 0.3.1'
 ```
 
 and run `pod install`, then you're all done!
@@ -24,9 +24,8 @@ and run `pod install`, then you're all done!
 NSArray *titles = @[@"tab0", @"tab1", @"tab2"];
 NSArray *controllers = @[[[YourViewController alloc] init], [[YourViewController alloc] init], [[YourViewController alloc] init]];
 
-SHTabScrollController *tabScrollController = [SHTabScrollController setupTitles:titles controllers:controllers tabIndexHandle:^(NSInteger index) {
-    do your code ...
-}];
+// default init method, do not care about switch controllers, will auto switch when tap or scroll
+SHTabScrollController *tabScrollController = [SHTabScrollController setupTitles:titles controllers:controllers];
 ```
 
 ## Summary
@@ -35,17 +34,34 @@ A simple view controller with tab button and childViewController, inspired by Ne
 
 Will add more custom option in next version.
 
-Tab button had had some animation and childViewController can be scroll.
+Tab button had some animation and childViewController can be scroll.
 
 Enjoy yourself.
 
 custom
 
 ```objc
+// if you wanna to get current tab index, you should call this method
++ (SHTabScrollController *)setupTitles:(NSArray *)titles controllers:(NSArray *)controllers tabIndexHandle:(SHTabIndexHandle)tabIndexHandle;
+
+// default is blackColor
+@property (nonatomic, strong) UIColor *normalTitleColor;
+
+// default is redColor
+@property (nonatomic, strong) UIColor *selectedTitleColor;
+
+// default is [UIColor colorWithRed:53.f/255.f green:53.f/255.f blue:53.f/255.f alpha:1.f], which likes a kind of blackColor
+@property (nonatomic, strong) UIColor *normalTabBottomLineColor;
+
+// default is [UIColor colorWithRed:205.f/255.f green:67.f/255.f blue:67.f/255.f alpha:1.f], which likes a kind of redColor
+@property (nonatomic, strong) UIColor *selectedTabBottomLineColor;
+
 // default is 40.0
 @property (nonatomic, assign) CGFloat tabButtonHeight;
-```
 
+// default is nil (system font 17 plain)
+@property (nonatomic, strong) UIFont *tabTitleFont;
+```
 
 ## Requirements
 

@@ -13,6 +13,9 @@
 
 @interface SHTabButton : SHButton
 @property (nonatomic, assign) CGFloat animationValue;
+@property (nonatomic, strong) UIFont *defaultFont;
+@property (nonatomic, strong) UIColor *normalBottomLineColor;
+@property (nonatomic, strong) UIColor *selectedBottomLineColor;
 
 - (instancetype)initWithTitle:(NSString *)title normalTitleColor:(UIColor *)normalTitleColor selectedTitleColor:(UIColor *)selectedTitleColor;
 

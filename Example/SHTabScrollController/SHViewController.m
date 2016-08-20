@@ -41,6 +41,11 @@
         NSLog(@"%@", status);
         self.topLabel.text = status;
     }];
+    tabScrollController.tabTitleFont = [UIFont systemFontOfSize:15.f];
+    tabScrollController.normalTitleColor = [UIColor purpleColor];
+    tabScrollController.selectedTitleColor = [UIColor orangeColor];
+    tabScrollController.normalTabBottomLineColor = [UIColor darkGrayColor];
+    tabScrollController.selectedTabBottomLineColor = [UIColor orangeColor];
     [self addChildViewController:tabScrollController];
      tabScrollController.view.frame = CGRectMake(0, CGRectGetMaxY(self.topLabel.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.topLabel.frame));
     [self.view addSubview:tabScrollController.view];

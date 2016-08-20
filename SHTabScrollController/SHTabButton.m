@@ -27,6 +27,9 @@
         self.maxShadowCircleValue = 1.f;
         self.minShadowCircleValue = 1.1;
         self.smartColor = NO;
+        self.normalBottomLineColor = LINECOLOR;
+        self.selectedBottomLineColor = REDCOLOR;
+        self.lineView.backgroundColor = self.normalBottomLineColor;
         [self addSubview:self.lineView];
     }
     return self;
@@ -39,13 +42,37 @@
 
 # pragma mark - published API
 
+- (void)setDefaultFont:(UIFont *)defaultFont {
+    _defaultFont = defaultFont;
+    self.titleLabel.font = defaultFont;
+}
+
 - (void)setAnimationValue:(CGFloat)animationValue {
-    [self setTitleColor:[UIColor colorWithRed:animationValue green:0.0 blue:0.0 alpha:1] forState:UIControlStateNormal];
-    self.lineView.backgroundColor = LINECOLOR;
+//    NSLog(@"%f", animationValue);
+    CIColor *normalCiColor = [CIColor colorWithCGColor:self.normalTitleColor.CGColor];
+    CGFloat normalRedColor = normalCiColor.red;
+    CGFloat normalGreenColor = normalCiColor.green;
+    CGFloat normalBlueColor = normalCiColor.blue;
+
+    CIColor *selectedCiColor = [CIColor colorWithCGColor:self.selectedTitleColor.CGColor];
+    CGFloat selectedRedColor = selectedCiColor.red;
+    CGFloat selectedGreenColor = selectedCiColor.green;
+    CGFloat selectedBlueColor = selectedCiColor.blue;
+    
+    CGFloat redDelta = (selectedRedColor - normalRedColor) * animationValue + normalRedColor;
+    CGFloat greenDelta = (selectedGreenColor - normalGreenColor) * animationValue + normalGreenColor;
+    CGFloat blueDelta = (selectedBlueColor - normalBlueColor) * animationValue + normalBlueColor;
+
+    UIColor *currentColor = [UIColor colorWithRed:redDelta green:greenDelta blue:blueDelta alpha:1.f];
+    [self setTitleColor:currentColor forState:UIControlStateNormal];
+    self.lineView.backgroundColor = self.normalBottomLineColor;
+    if (animationValue == 1.f) {
+        self.lineView.backgroundColor = self.selectedBottomLineColor;
+    }
 }
 
 - (void)setupCurrentLineColor {
-    self.lineView.backgroundColor = !self.isSelectedStatus ? LINECOLOR : REDCOLOR;
+    self.lineView.backgroundColor = !self.isSelectedStatus ? self.normalBottomLineColor : self.selectedBottomLineColor;
     [self setTitleColor:!self.isSelectedStatus ? self.normalTitleColor : self.selectedTitleColor forState:UIControlStateNormal];
 }
 
@@ -59,7 +86,6 @@
 - (UIView *)lineView {
     if (!_lineView) {
         _lineView = [[UIView alloc] init];
-        _lineView.backgroundColor = LINECOLOR;
     }
     return _lineView;
 }
