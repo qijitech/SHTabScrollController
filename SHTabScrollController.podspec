@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
 s.name             = 'SHTabScrollController'
-s.version          = '0.3.1'
+s.version          = '0.3.2'
 s.summary          = 'Inspired by Netease News.'
 s.homepage         = 'https://github.com/harushuu/SHTabScrollController'
 s.screenshots      = 'https://github.com/harushuu/SHTabScrollController/raw/master/Screenshots.gif'

@@ -172,6 +172,9 @@
         [self.tabButtonsArray[didEndScrollButtonTag] setupCurrentLineColor];
         return;
     }
+    if (self.tabIndexHandle) {
+        self.tabIndexHandle(didEndScrollButtonTag);
+    }
     [self.tabButtonsArray[self.currenTabButtonIndex] updateButtonStatus];
     [self.tabButtonsArray[didEndScrollButtonTag] updateButtonStatus];
     self.currenTabButtonIndex = didEndScrollButtonTag;

@@ -13,7 +13,7 @@
 With [CocoaPods](http://cocoapods.org/), add this line to your `Podfile`.
 
 ```
-pod 'SHTabScrollController', '~> 0.3.1'
+pod 'SHTabScrollController', '~> 0.3.2'
 ```
 
 and run `pod install`, then you're all done!
