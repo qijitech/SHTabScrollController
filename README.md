@@ -38,7 +38,7 @@ Tab button had some animation and childViewController can be scroll.
 
 Enjoy yourself.
 
-custom
+###custom
 
 ```objc
 // if you wanna to get current tab index, you should call this method
