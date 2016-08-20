@@ -22,10 +22,14 @@ and run `pod install`, then you're all done!
 
 ```objc
 NSArray *titles = @[@"tab0", @"tab1", @"tab2"];
-NSArray *controllers = @[[[YourViewController alloc] init], [[YourViewController alloc] init], [[YourViewController alloc] init]];
+NSArray *controllers = @[[[YourViewController alloc] init], 
+                         [[YourViewController alloc] init], 
+                         [[YourViewController alloc] init]];
 
-// default init method, do not care about switch controllers, will auto switch when tap or scroll
-SHTabScrollController *tabScrollController = [SHTabScrollController setupTitles:titles controllers:controllers];
+// default init method, do not care about switch controllers, 
+// will auto switch current controller when tap or scroll
+SHTabScrollController *tabScrollController = [SHTabScrollController setupTitles:titles 
+                                                                    controllers:controllers];
 ```
 
 ## Summary
@@ -42,7 +46,9 @@ Enjoy yourself.
 
 ```objc
 // if you wanna to get current tab index, you should call this method
-+ (SHTabScrollController *)setupTitles:(NSArray *)titles controllers:(NSArray *)controllers tabIndexHandle:(SHTabIndexHandle)tabIndexHandle;
++ (SHTabScrollController *)setupTitles:(NSArray *)titles 
+                           controllers:(NSArray *)controllers 
+                        tabIndexHandle:(SHTabIndexHandle)tabIndexHandle;
 
 // default is blackColor
 @property (nonatomic, strong) UIColor *normalTitleColor;
@@ -50,10 +56,12 @@ Enjoy yourself.
 // default is redColor
 @property (nonatomic, strong) UIColor *selectedTitleColor;
 
-// default is [UIColor colorWithRed:53.f/255.f green:53.f/255.f blue:53.f/255.f alpha:1.f], which likes a kind of blackColor
+// default is [UIColor colorWithRed:53.f/255.f green:53.f/255.f blue:53.f/255.f alpha:1.f], 
+// which likes a kind of blackColor
 @property (nonatomic, strong) UIColor *normalTabBottomLineColor;
 
-// default is [UIColor colorWithRed:205.f/255.f green:67.f/255.f blue:67.f/255.f alpha:1.f], which likes a kind of redColor
+// default is [UIColor colorWithRed:205.f/255.f green:67.f/255.f blue:67.f/255.f alpha:1.f], 
+// which likes a kind of redColor
 @property (nonatomic, strong) UIColor *selectedTabBottomLineColor;
 
 // default is 40.0
