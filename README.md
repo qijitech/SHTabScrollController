@@ -34,11 +34,11 @@ SHTabScrollController *tabScrollController = [SHTabScrollController setupTitles:
 
 ## Summary
 
-A simple view controller with tab button and childViewController, inspired by Netease News.
+A simple view controller with tab button and childViewController
 
-Will add more custom option in next version.
+Tab button has some animation and childViewController can be scroll.
 
-Tab button had some animation and childViewController can be scroll.
+Will support scroll tab button in next version.
 
 Enjoy yourself!
 
