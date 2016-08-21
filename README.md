@@ -13,7 +13,7 @@
 With [CocoaPods](http://cocoapods.org/), add this line to your `Podfile`.
 
 ```
-pod 'SHTabScrollController', '~> 0.3.2'
+pod 'SHTabScrollController', '~> 0.3.3'
 ```
 
 and run `pod install`, then you're all done!
@@ -40,7 +40,7 @@ Will add more custom option in next version.
 
 Tab button had some animation and childViewController can be scroll.
 
-Enjoy yourself.
+Enjoy yourself!
 
 ###custom
 

@@ -1,6 +1,6 @@
 //
 //  SHTabScrollController.m
-//  Pods
+//  SHTabScrollController
 //
 //  Created by shuu on 7/30/16.
 //  Copyright (c) 2016 @harushuu. All rights reserved.
@@ -30,12 +30,14 @@
 #import "SHTabScrollController.h"
 #import "SHScrollView.h"
 #import "SHTabButton.h"
+#import "SHColorUtils.h"
 #import <SHButton/SHButton.h>
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
 @interface SHTabScrollController () <UIScrollViewDelegate>
+
 @property (nonatomic, copy) SHTabIndexHandle tabIndexHandle;
 @property (nonatomic, strong) NSArray *tabButtonTitlesArray;
 @property (nonatomic, strong) NSMutableArray *tabButtonsArray;
@@ -88,6 +90,13 @@
     [self setupScrollView];
 }
 
+- (void)viewWillLayoutSubviews {
+    self.contentScrollView.frame = CGRectMake(0, self.tabButtonHeight, SCREEN_WIDTH, self.view.bounds.size.height - self.tabButtonHeight);
+    self.contentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * self.controllersArray.count, self.view.bounds.size.height - self.tabButtonHeight);
+}
+
+#pragma mark - Private API
+
 - (void)setupChildViewControllers {
     for (UIViewController *viewController in self.controllersArray) {
         [self addChildViewController:viewController];
@@ -127,12 +136,15 @@
     self.currentControllerIndex = 0;
 }
 
-- (void)viewWillLayoutSubviews {
-    self.contentScrollView.frame = CGRectMake(0, self.tabButtonHeight, SCREEN_WIDTH, self.view.bounds.size.height - self.tabButtonHeight);
-    self.contentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * self.controllersArray.count, self.view.bounds.size.height - self.tabButtonHeight);
+- (void)setNormalTitleColor:(UIColor *)normalTitleColor {
+    _normalTitleColor = normalTitleColor;
+    [SHColorUtils normalColor:normalTitleColor];
 }
 
-#pragma mark - Private API
+- (void)setSelectedTitleColor:(UIColor *)selectedTitleColor {
+    _selectedTitleColor = selectedTitleColor;
+    [SHColorUtils selectedColor:selectedTitleColor];
+}
 
 #pragma mark - Published API
 

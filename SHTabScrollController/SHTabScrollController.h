@@ -1,6 +1,6 @@
 //
 //  SHTabScrollController.h
-//  Pods
+//  SHTabScrollController
 //
 //  Created by shuu on 7/30/16.
 //  Copyright (c) 2016 @harushuu. All rights reserved.
@@ -26,6 +26,7 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+
 #import <UIKit/UIKit.h>
 
 typedef void(^SHTabIndexHandle)(NSInteger index);
@@ -38,10 +39,12 @@ typedef void(^SHTabIndexHandle)(NSInteger index);
 // default is redColor
 @property (nonatomic, strong) UIColor *selectedTitleColor;
 
-// default is [UIColor colorWithRed:53.f/255.f green:53.f/255.f blue:53.f/255.f alpha:1.f], which likes a kind of blackColor
+// default is [UIColor colorWithRed:53.f/255.f green:53.f/255.f blue:53.f/255.f alpha:1.f],
+// which likes a kind of blackColor
 @property (nonatomic, strong) UIColor *normalTabBottomLineColor;
 
-// default is [UIColor colorWithRed:205.f/255.f green:67.f/255.f blue:67.f/255.f alpha:1.f], which likes a kind of redColor
+// default is [UIColor colorWithRed:205.f/255.f green:67.f/255.f blue:67.f/255.f alpha:1.f],
+// which likes a kind of redColor
 @property (nonatomic, strong) UIColor *selectedTabBottomLineColor;
 
 // default is 40.0
@@ -50,10 +53,14 @@ typedef void(^SHTabIndexHandle)(NSInteger index);
 // default is nil (system font 17 plain)
 @property (nonatomic, strong) UIFont *tabTitleFont;
 
-// default init method, do not care about switch controllers, will auto switch when tap or scroll
-+ (SHTabScrollController *)setupTitles:(NSArray *)titles controllers:(NSArray *)controllers;
+// default init method, do not care about switch controllers,
+// will auto switch when tap or scroll
++ (SHTabScrollController *)setupTitles:(NSArray *)titles
+                           controllers:(NSArray *)controllers;
 
 // if you wanna to get current tab index, you should call this method
-+ (SHTabScrollController *)setupTitles:(NSArray *)titles controllers:(NSArray *)controllers tabIndexHandle:(SHTabIndexHandle)tabIndexHandle;
++ (SHTabScrollController *)setupTitles:(NSArray *)titles
+                           controllers:(NSArray *)controllers
+                        tabIndexHandle:(SHTabIndexHandle)tabIndexHandle;
 
 @end

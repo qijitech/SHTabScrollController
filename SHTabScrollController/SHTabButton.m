@@ -1,14 +1,37 @@
 //
 //  SHTabButton.m
-//  Pods
+//  SHTabScrollController
 //
 //  Created by shuu on 7/30/16.
+//  Copyright (c) 2016 @harushuu. All rights reserved.
 //
+// The MIT License (MIT)
 //
+// Copyright (c) 2016 @harushuu
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy of
+// this software and associated documentation files (the "Software"), to deal in
+// the Software without restriction, including without limitation the rights to
+// use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+// the Software, and to permit persons to whom the Software is furnished to do so,
+// subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+// FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+// COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+// IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
 
 #import "SHTabButton.h"
+#import "SHColorUtils.h"
 
 @interface SHTabButton ()
+
 @property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, strong) UIColor *normalTitleColor;
 @property (nonatomic, strong) UIColor *selectedTitleColor;
@@ -49,22 +72,7 @@
 
 - (void)setAnimationValue:(CGFloat)animationValue {
 //    NSLog(@"%f", animationValue);
-    CIColor *normalCiColor = [CIColor colorWithCGColor:self.normalTitleColor.CGColor];
-    CGFloat normalRedColor = normalCiColor.red;
-    CGFloat normalGreenColor = normalCiColor.green;
-    CGFloat normalBlueColor = normalCiColor.blue;
-
-    CIColor *selectedCiColor = [CIColor colorWithCGColor:self.selectedTitleColor.CGColor];
-    CGFloat selectedRedColor = selectedCiColor.red;
-    CGFloat selectedGreenColor = selectedCiColor.green;
-    CGFloat selectedBlueColor = selectedCiColor.blue;
-    
-    CGFloat redDelta = (selectedRedColor - normalRedColor) * animationValue + normalRedColor;
-    CGFloat greenDelta = (selectedGreenColor - normalGreenColor) * animationValue + normalGreenColor;
-    CGFloat blueDelta = (selectedBlueColor - normalBlueColor) * animationValue + normalBlueColor;
-
-    UIColor *currentColor = [UIColor colorWithRed:redDelta green:greenDelta blue:blueDelta alpha:1.f];
-    [self setTitleColor:currentColor forState:UIControlStateNormal];
+    [self setTitleColor:[SHColorUtils transitionColors:animationValue] forState:UIControlStateNormal];
     self.lineView.backgroundColor = self.normalBottomLineColor;
     if (animationValue == 1.f) {
         self.lineView.backgroundColor = self.selectedBottomLineColor;
