@@ -92,6 +92,11 @@
 
 # pragma mark - published API
 
+- (void)setNormalBottomLineColor:(UIColor *)normalBottomLineColor {
+    _normalBottomLineColor = normalBottomLineColor;
+    self.lineView.backgroundColor = self.normalBottomLineColor;
+}
+
 - (void)setDefaultFont:(UIFont *)defaultFont {
     _defaultFont = defaultFont;
     self.titleLabel.font = defaultFont;

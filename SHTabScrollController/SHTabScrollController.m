@@ -165,6 +165,12 @@
         __block CGFloat tabButtonWidth = SCREEN_WIDTH / self.normalImagesArray.count;
         [self.normalImagesArray enumerateObjectsUsingBlock:^(NSString *image, NSUInteger idx, BOOL * _Nonnull stop) {
             SHTabButton *tabButton = [[SHTabButton alloc] initWithNormalImage:image highlightImage:self.highlightImagesArray[idx]];
+            if (self.normalTabBottomLineColor) {
+                tabButton.normalBottomLineColor = self.normalTabBottomLineColor;
+            }
+            if (self.selectedTabBottomLineColor) {
+                tabButton.selectedBottomLineColor = self.selectedTabBottomLineColor;
+            }
             tabButton.frame = CGRectMake(tabButtonWidth * idx, 0, tabButtonWidth, self.tabButtonHeight);
             tabButton.tag = idx;
             [tabButton addTarget:self action:@selector(tabButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
