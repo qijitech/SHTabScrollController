@@ -53,7 +53,7 @@ typedef void(^SHTabIndexHandle)(NSInteger index);
 // default is nil (system font 17 plain)
 @property (nonatomic, strong) UIFont *tabTitleFont;
 
-// default init method, do not care about switch controllers,
+// default init method with titles, do not care about switch controllers,
 // will auto switch when tap or scroll
 + (SHTabScrollController *)setupTitles:(NSArray *)titles
                            controllers:(NSArray *)controllers;
@@ -62,5 +62,19 @@ typedef void(^SHTabIndexHandle)(NSInteger index);
 + (SHTabScrollController *)setupTitles:(NSArray *)titles
                            controllers:(NSArray *)controllers
                         tabIndexHandle:(SHTabIndexHandle)tabIndexHandle;
+
+// default init method with images, do not care about switch controllers,
+// will auto switch when tap or scroll
++ (SHTabScrollController *)setupNormalImages:(NSArray *)normalImages
+                              highlightImages:(NSArray *)highlightImages
+                                 controllers:(NSArray *)controllers;
+
+// if you wanna to get current tab index, you should call this method
++ (SHTabScrollController *)setupNormalImages:(NSArray *)normalImages
+                             highlightImages:(NSArray *)highlightImages
+                                 controllers:(NSArray *)controllers
+                              tabIndexHandle:(SHTabIndexHandle)tabIndexHandle;
+
+
 
 @end

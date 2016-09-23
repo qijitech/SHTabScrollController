@@ -32,6 +32,7 @@
 #import "SHTabButton.h"
 #import "SHColorUtils.h"
 #import <SHButton/SHButton.h>
+#import "SHTypeHeader.h"
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
@@ -48,6 +49,10 @@
 @property (nonatomic, assign, getter=isUserTouched) BOOL userTouched;
 @property (nonatomic, strong) UIView *lineView;
 
+@property (nonatomic, strong) NSArray *normalImagesArray;
+@property (nonatomic, strong) NSArray *highlightImagesArray;
+@property (nonatomic, assign) SHTabButtonType tabButtonType;
+
 @end
 
 @implementation SHTabScrollController
@@ -59,14 +64,43 @@
         NSLog(@"Please checkout your dataSource, titles count is %ld, but controllers count is %ld", titles.count, controllers.count);
         return nil;
     }
-    SHTabScrollController * tabScrollController = [[SHTabScrollController alloc] init];
+    SHTabScrollController *tabScrollController = [[SHTabScrollController alloc] init];
     tabScrollController.controllersArray = controllers;
     tabScrollController.tabButtonTitlesArray = titles;
+    tabScrollController.tabButtonType = SHTabButtonTypeOnlyTitle;
     return tabScrollController;
 }
 
 + (SHTabScrollController *)setupTitles:(NSArray *)titles controllers:(NSArray *)controllers tabIndexHandle:(SHTabIndexHandle)tabIndexHandle {
     SHTabScrollController *tabScrollController = [SHTabScrollController setupTitles:titles controllers:controllers];
+    if (tabIndexHandle) {
+        tabScrollController.tabIndexHandle = tabIndexHandle;
+    }
+    return tabScrollController;
+}
+
++ (SHTabScrollController *)setupNormalImages:(NSArray *)normalImages highlightImages:(NSArray *)highlightImages controllers:(NSArray *)controllers {
+    if (normalImages.count != controllers.count) {
+        NSLog(@"Please checkout your dataSource, normalImages count is %ld, but controllers count is %ld", normalImages.count, controllers.count);
+        return nil;
+    }
+    if (!highlightImages.count) {
+        highlightImages = normalImages;
+    }
+    if (highlightImages.count != normalImages.count) {
+        NSLog(@"Please checkout your dataSource, normalImages count is %ld, but highlightImages count is %ld", normalImages.count, highlightImages.count);
+        return nil;
+    }
+    SHTabScrollController * tabScrollController = [[SHTabScrollController alloc] init];
+    tabScrollController.controllersArray = controllers;
+    tabScrollController.normalImagesArray = normalImages;
+    tabScrollController.highlightImagesArray = highlightImages;
+    tabScrollController.tabButtonType = SHTabButtonTypeOnlyImage;
+    return tabScrollController;
+}
+
++ (SHTabScrollController *)setupNormalImages:(NSArray *)normalImages highlightImages:(NSArray *)highlightImages controllers:(NSArray *)controllers tabIndexHandle:(SHTabIndexHandle)tabIndexHandle {
+    SHTabScrollController *tabScrollController = [SHTabScrollController setupNormalImages:normalImages highlightImages:highlightImages controllers:controllers];
     if (tabIndexHandle) {
         tabScrollController.tabIndexHandle = tabIndexHandle;
     }
@@ -104,24 +138,38 @@
 }
 
 - (void)setupTabButtons {
-    __block CGFloat tabButtonWidth = SCREEN_WIDTH / self.tabButtonTitlesArray.count;
-    [self.tabButtonTitlesArray enumerateObjectsUsingBlock:^(NSString *title, NSUInteger idx, BOOL * _Nonnull stop) {
-        SHTabButton *tabButton = [[SHTabButton alloc] initWithTitle:title normalTitleColor:self.normalTitleColor selectedTitleColor:self.selectedTitleColor];
-        if (self.tabTitleFont) {
-            tabButton.defaultFont = self.tabTitleFont;
-        }
-        if (self.normalTabBottomLineColor) {
-            tabButton.normalBottomLineColor = self.normalTabBottomLineColor;
-        }
-        if (self.selectedTabBottomLineColor) {
-            tabButton.selectedBottomLineColor = self.selectedTabBottomLineColor;
-        }
-        tabButton.frame = CGRectMake(tabButtonWidth * idx, 0, tabButtonWidth, self.tabButtonHeight);
-        tabButton.tag = idx;
-        [tabButton addTarget:self action:@selector(tabButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [self.tabButtonsArray addObject:tabButton];
-        [self.view addSubview:tabButton];
-    }];
+    if (self.tabButtonType == SHTabButtonTypeOnlyTitle) {
+        __block CGFloat tabButtonWidth = SCREEN_WIDTH / self.tabButtonTitlesArray.count;
+        [self.tabButtonTitlesArray enumerateObjectsUsingBlock:^(NSString *title, NSUInteger idx, BOOL * _Nonnull stop) {
+            SHTabButton *tabButton = [[SHTabButton alloc] initWithTitle:title normalTitleColor:self.normalTitleColor selectedTitleColor:self.selectedTitleColor];
+            if (self.tabTitleFont) {
+                tabButton.defaultFont = self.tabTitleFont;
+            }
+            if (self.normalTabBottomLineColor) {
+                tabButton.normalBottomLineColor = self.normalTabBottomLineColor;
+            }
+            if (self.selectedTabBottomLineColor) {
+                tabButton.selectedBottomLineColor = self.selectedTabBottomLineColor;
+            }
+            tabButton.frame = CGRectMake(tabButtonWidth * idx, 0, tabButtonWidth, self.tabButtonHeight);
+            tabButton.tag = idx;
+            [tabButton addTarget:self action:@selector(tabButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+            [self.tabButtonsArray addObject:tabButton];
+            [self.view addSubview:tabButton];
+        }];
+    }
+    
+    if (self.tabButtonType == SHTabButtonTypeOnlyImage) {
+        __block CGFloat tabButtonWidth = SCREEN_WIDTH / self.normalImagesArray.count;
+        [self.normalImagesArray enumerateObjectsUsingBlock:^(NSString *image, NSUInteger idx, BOOL * _Nonnull stop) {
+            SHTabButton *tabButton = [[SHTabButton alloc] initWithNormalImage:image highlightImage:self.highlightImagesArray[idx]];
+            tabButton.frame = CGRectMake(tabButtonWidth * idx, 0, tabButtonWidth, self.tabButtonHeight);
+            tabButton.tag = idx;
+            [tabButton addTarget:self action:@selector(tabButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+            [self.tabButtonsArray addObject:tabButton];
+            [self.view addSubview:tabButton];
+        }];
+    }
     self.currenTabButtonIndex = 0;
     [self.view addSubview:self.lineView];
     [self.tabButtonsArray[0] updateButtonStatus];

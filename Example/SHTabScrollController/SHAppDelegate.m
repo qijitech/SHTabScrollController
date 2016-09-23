@@ -7,7 +7,7 @@
 //
 
 #import "SHAppDelegate.h"
-#import "SHViewController.h"
+#import "SHDemoViewController.h"
 
 @implementation SHAppDelegate
 
@@ -16,7 +16,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
-    self.window.rootViewController = [[SHViewController alloc] init];
+    self.window.rootViewController = [[SHDemoViewController alloc] init];
     return YES;
 }
 

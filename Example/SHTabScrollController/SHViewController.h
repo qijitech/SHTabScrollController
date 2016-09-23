@@ -10,4 +10,8 @@
 
 @interface SHViewController : UIViewController
 
+- (instancetype)initWithTitle;
+
+- (instancetype)initWithImage;
+
 @end

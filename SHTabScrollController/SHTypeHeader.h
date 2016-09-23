@@ -1,8 +1,8 @@
 //
-//  SHTabButton.h
-//  SHTabScrollController
+//  SHTypeHeader.h
+//  SHTypeHeader
 //
-//  Created by shuu on 7/30/16.
+//  Created by shuu on 23/09/2016.
 //  Copyright (c) 2016 @harushuu. All rights reserved.
 //
 // The MIT License (MIT)
@@ -26,28 +26,12 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#ifndef SHTypeHeader_h
+#define SHTypeHeader_h
 
-#import <SHButton/SHButton.h>
+typedef NS_ENUM (NSInteger, SHTabButtonType) {
+    SHTabButtonTypeOnlyTitle,
+    SHTabButtonTypeOnlyImage,
+};
 
-#define LINECOLOR [UIColor colorWithRed:53.f/255.f green:53.f/255.f blue:53.f/255.f alpha:1.f]
-#define REDCOLOR [UIColor colorWithRed:205.f/255.f green:67.f/255.f blue:67.f/255.f alpha:1.f]
-
-@interface SHTabButton : SHButton
-
-@property (nonatomic, assign) CGFloat animationValue;
-@property (nonatomic, strong) UIFont *defaultFont;
-@property (nonatomic, strong) UIColor *normalBottomLineColor;
-@property (nonatomic, strong) UIColor *selectedBottomLineColor;
-
-- (instancetype)initWithTitle:(NSString *)title
-             normalTitleColor:(UIColor *)normalTitleColor
-           selectedTitleColor:(UIColor *)selectedTitleColor;
-
-- (instancetype)initWithNormalImage:(NSString *)normalImage
-                     highlightImage:(NSString *)highlightImage;
-
-
-- (void)updateButtonStatus;
-- (void)setupCurrentLineColor;
-
-@end
+#endif /* SHTypeHeader_h */

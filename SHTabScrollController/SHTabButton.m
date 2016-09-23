@@ -29,6 +29,7 @@
 
 #import "SHTabButton.h"
 #import "SHColorUtils.h"
+#import "SHTypeHeader.h"
 
 @interface SHTabButton ()
 
@@ -36,31 +37,57 @@
 @property (nonatomic, strong) UIColor *normalTitleColor;
 @property (nonatomic, strong) UIColor *selectedTitleColor;
 @property (nonatomic, assign, getter=isSelectedStatus) BOOL selectedStatus;
+@property (nonatomic, assign) SHTabButtonType type;
+@property (nonatomic, strong) UIImageView *normalImageView;
+@property (nonatomic, strong) UIImageView *highlightImageView;
 
 @end
 
 @implementation SHTabButton
 
-- (instancetype)initWithTitle:(NSString *)title normalTitleColor:(UIColor *)normalTitleColor selectedTitleColor:(UIColor *)selectedTitleColor {
+- (instancetype)initWithNormalImage:(NSString *)normalImage highlightImage:(NSString *)highlightImage {
     if (self = [super init]) {
-        self.normalTitleColor = normalTitleColor;
-        self.selectedTitleColor = selectedTitleColor;
-        [self setTitleColor:normalTitleColor forState:UIControlStateNormal];
-        [self setTitle:title forState:UIControlStateNormal];
-        self.maxShadowCircleValue = 1.f;
-        self.minShadowCircleValue = 1.1;
-        self.smartColor = NO;
-        self.normalBottomLineColor = LINECOLOR;
-        self.selectedBottomLineColor = REDCOLOR;
-        self.lineView.backgroundColor = self.normalBottomLineColor;
-        [self addSubview:self.lineView];
+        self.type = SHTabButtonTypeOnlyImage;
+        self.normalImageView.image = [UIImage imageNamed:normalImage];
+        self.highlightImageView.image = [UIImage imageNamed:highlightImage];
+        [self setupTabButton];
     }
     return self;
 }
 
+- (instancetype)initWithTitle:(NSString *)title normalTitleColor:(UIColor *)normalTitleColor selectedTitleColor:(UIColor *)selectedTitleColor {
+    if (self = [super init]) {
+        self.type = SHTabButtonTypeOnlyTitle;
+        self.normalTitleColor = normalTitleColor;
+        self.selectedTitleColor = selectedTitleColor;
+        [self setTitleColor:normalTitleColor forState:UIControlStateNormal];
+        [self setTitle:title forState:UIControlStateNormal];
+        [self setupTabButton];
+    }
+    return self;
+}
+
+- (void)setupTabButton {
+    self.maxShadowCircleValue = 1.f;
+    self.minShadowCircleValue = 1.1;
+    self.smartColor = NO;
+    self.normalBottomLineColor = LINECOLOR;
+    self.selectedBottomLineColor = REDCOLOR;
+    self.lineView.backgroundColor = self.normalBottomLineColor;
+    [self addSubview:self.lineView];
+    if (self.type == SHTabButtonTypeOnlyImage) {
+        [self addSubview:self.normalImageView];
+        [self addSubview:self.highlightImageView];
+    }
+}
+
 - (void)setFrame:(CGRect)frame {
     [super setFrame:frame];
-    self.lineView.frame = CGRectMake(0, frame.size.height - 2, frame.size.width, 2);
+    if (frame.size.width && frame.size.height) {
+        self.lineView.frame = CGRectMake(0, frame.size.height - 2, frame.size.width, 2);
+        self.normalImageView.frame = self.bounds;
+        self.highlightImageView.frame = self.bounds;
+    }
 }
 
 # pragma mark - published API
@@ -71,8 +98,13 @@
 }
 
 - (void)setAnimationValue:(CGFloat)animationValue {
-//    NSLog(@"%f", animationValue);
-    [self setTitleColor:[SHColorUtils transitionColors:animationValue] forState:UIControlStateNormal];
+    if (self.type == SHTabButtonTypeOnlyTitle) {
+        [self setTitleColor:[SHColorUtils transitionColors:animationValue] forState:UIControlStateNormal];
+    }
+    if (self.type == SHTabButtonTypeOnlyImage) {
+        self.highlightImageView.alpha = animationValue;
+        self.normalImageView.alpha = 1 - animationValue;
+    }
     self.lineView.backgroundColor = self.normalBottomLineColor;
     if (animationValue == 1.f) {
         self.lineView.backgroundColor = self.selectedBottomLineColor;
@@ -81,7 +113,13 @@
 
 - (void)setupCurrentLineColor {
     self.lineView.backgroundColor = !self.isSelectedStatus ? self.normalBottomLineColor : self.selectedBottomLineColor;
-    [self setTitleColor:!self.isSelectedStatus ? self.normalTitleColor : self.selectedTitleColor forState:UIControlStateNormal];
+    if (self.type == SHTabButtonTypeOnlyTitle) {
+        [self setTitleColor:!self.isSelectedStatus ? self.normalTitleColor : self.selectedTitleColor forState:UIControlStateNormal];
+    }
+    if (self.type == SHTabButtonTypeOnlyImage) {
+        self.highlightImageView.alpha = self.isSelectedStatus;
+        self.normalImageView.alpha = !self.isSelectedStatus;
+    }
 }
 
 - (void)updateButtonStatus {
@@ -96,6 +134,24 @@
         _lineView = [[UIView alloc] init];
     }
     return _lineView;
+}
+
+- (UIImageView *)normalImageView {
+    if (!_normalImageView) {
+        _normalImageView = [[UIImageView alloc] init];
+        _normalImageView.contentMode = UIViewContentModeCenter;
+        _normalImageView.alpha = 1.f;
+    }
+    return _normalImageView;
+}
+
+- (UIImageView *)highlightImageView {
+    if (!_highlightImageView) {
+        _highlightImageView = [[UIImageView alloc] init];
+        _highlightImageView.contentMode = UIViewContentModeCenter;
+        _highlightImageView.alpha = 0.f;
+    }
+    return _highlightImageView;
 }
 
 
