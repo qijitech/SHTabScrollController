@@ -7,6 +7,7 @@
 
 ## Screenshots
 ![image](https://github.com/harushuu/SHTabScrollController/raw/master/Screenshots.gif)
+![image](https://github.com/harushuu/SHTabScrollController/raw/master/Screenshots1.gif)
 
 ## Installation
  
