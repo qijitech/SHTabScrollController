@@ -75,6 +75,13 @@
             NSLog(@"%@", status);
             [self.topLabelButton setTitle:status forState:UIControlStateNormal];
         }];
+        tabScrollController.tabBottomViewHeight = 30.f;
+        UILabel *detailLabel = [[UILabel alloc] init];
+        detailLabel.text = @"you can custom this view, can hidden this yet";
+        detailLabel.textAlignment = NSTextAlignmentCenter;
+        detailLabel.textColor = [UIColor blackColor];
+        detailLabel.backgroundColor = [UIColor lightGrayColor];
+        tabScrollController.tabBottomView = detailLabel;
         [self addChildViewController:tabScrollController];
         tabScrollController.view.frame = CGRectMake(0, CGRectGetMaxY(self.topLabelButton.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.topLabelButton.frame));
         [self.view addSubview:tabScrollController.view];

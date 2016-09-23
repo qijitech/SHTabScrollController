@@ -13,7 +13,7 @@
 With [CocoaPods](http://cocoapods.org/), add this line to your `Podfile`.
 
 ```
-pod 'SHTabScrollController', '~> 0.3.3'
+pod 'SHTabScrollController', '~> 0.3.4'
 ```
 
 and run `pod install`, then you're all done!
@@ -21,6 +21,9 @@ and run `pod install`, then you're all done!
 ## How to use
 
 ```objc
+
+// init with title
+
 NSArray *titles = @[@"tab0", @"tab1", @"tab2"];
 NSArray *controllers = @[[[YourViewController alloc] init], 
                          [[YourViewController alloc] init], 
@@ -30,6 +33,22 @@ NSArray *controllers = @[[[YourViewController alloc] init],
 // will auto switch current controller when tap or scroll
 SHTabScrollController *tabScrollController = [SHTabScrollController setupTitles:titles 
                                                                     controllers:controllers];
+
+
+// init with image
+
+NSArray *normalImages = @[@"tabNormal", @"tabNormal", @"tabNormal"];
+NSArray *highlightImages = @[@"tabHighlight", @"tabHighlight", @"tabHighlight"];
+NSArray *controllers = @[[[YourViewController alloc] init], 
+                        [[YourViewController alloc] init], 
+                        [[YourViewController alloc] init]];
+
+// default init method with images, do not care about switch controllers,
+// will auto switch when tap or scroll
++ (SHTabScrollController *)setupNormalImages:(NSArray *)normalImages
+                             highlightImages:(NSArray *)highlightImages
+                                 controllers:(NSArray *)controllers;
+
 ```
 
 ## Summary
@@ -45,10 +64,20 @@ Enjoy yourself!
 ###custom
 
 ```objc
+// init with title
+
 // if you wanna to get current tab index, you should call this method
 + (SHTabScrollController *)setupTitles:(NSArray *)titles 
                            controllers:(NSArray *)controllers 
                         tabIndexHandle:(SHTabIndexHandle)tabIndexHandle;
+
+// init with image
+
+// if you wanna to get current tab index, you should call this method
++ (SHTabScrollController *)setupNormalImages:(NSArray *)normalImages
+                             highlightImages:(NSArray *)highlightImages
+                                 controllers:(NSArray *)controllers
+                              tabIndexHandle:(SHTabIndexHandle)tabIndexHandle;
 
 // default is blackColor
 @property (nonatomic, strong) UIColor *normalTitleColor;
@@ -69,6 +98,12 @@ Enjoy yourself!
 
 // default is nil (system font 17 plain)
 @property (nonatomic, strong) UIFont *tabTitleFont;
+
+// default is 0.f height, if you need some custom view, you can implementation this,
+@property (nonatomic, strong) UIView *tabBottomView;
+
+// default is 0.f height, if you need some custom view, you can changed this,
+@property (nonatomic, assign) CGFloat tabBottomViewHeight;
 ```
 
 ## Requirements

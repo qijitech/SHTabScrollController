@@ -112,6 +112,7 @@
         self.normalTitleColor = [UIColor blackColor];
         self.selectedTitleColor = [UIColor redColor];
         self.tabButtonHeight = 40.f;
+        self.tabBottomViewHeight = 0.f;
     }
     return self;
 }
@@ -121,11 +122,12 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupChildViewControllers];
     [self setupTabButtons];
+    [self setupTabBottomView];
     [self setupScrollView];
 }
 
 - (void)viewWillLayoutSubviews {
-    self.contentScrollView.frame = CGRectMake(0, self.tabButtonHeight, SCREEN_WIDTH, self.view.bounds.size.height - self.tabButtonHeight);
+    self.contentScrollView.frame = CGRectMake(0, self.tabButtonHeight + self.tabBottomViewHeight, SCREEN_WIDTH, self.view.bounds.size.height - self.tabButtonHeight);
     self.contentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * self.controllersArray.count, self.view.bounds.size.height - self.tabButtonHeight);
 }
 
@@ -173,6 +175,11 @@
     self.currenTabButtonIndex = 0;
     [self.view addSubview:self.lineView];
     [self.tabButtonsArray[0] updateButtonStatus];
+}
+
+- (void)setupTabBottomView {
+    self.tabBottomView.frame = CGRectMake(0, CGRectGetMaxY([(SHButton *)self.tabButtonsArray[0] frame]), SCREEN_WIDTH, self.tabBottomViewHeight);
+    [self.view addSubview:self.tabBottomView];
 }
 
 - (void)setupScrollView {
@@ -284,4 +291,12 @@
     }
     return _tabButtonsArray;
 }
+
+- (UIView *)tabBottomView {
+    if (!_tabBottomView) {
+        _tabBottomView = [[UIView alloc] init];
+    }
+    return _tabBottomView;
+}
+
 @end
