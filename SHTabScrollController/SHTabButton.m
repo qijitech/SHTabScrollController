@@ -120,7 +120,9 @@
         self.highlightImageView.alpha = animationValue;
         self.normalImageView.alpha = 1 - animationValue;
     }
-    self.backgroundColor = [SHColorUtils transitionBackgroundColors:animationValue];
+    if (self.selectedbackgroundColor) {
+        self.backgroundColor = [SHColorUtils transitionBackgroundColors:animationValue];
+    }
     self.lineView.backgroundColor = self.normalBottomLineColor;
     if (animationValue == 1.f) {
         self.lineView.backgroundColor = self.selectedBottomLineColor;
@@ -136,7 +138,9 @@
         self.highlightImageView.alpha = self.isSelectedStatus;
         self.normalImageView.alpha = !self.isSelectedStatus;
     }
-    self.backgroundColor = !self.isSelectedStatus ? self.normalBackgroundColor : self.selectedbackgroundColor;
+    if (self.selectedbackgroundColor) {
+        self.backgroundColor = !self.isSelectedStatus ? self.normalBackgroundColor : self.selectedbackgroundColor;
+    }
 }
 
 - (void)updateButtonStatus {

@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
 s.name             = 'SHTabScrollController'
-s.version          = '0.3.6'
+s.version          = '0.3.7'
 s.summary          = 'A simple view controller with tab button and childViewController, which has some animation and can be scroll.'
 s.homepage         = 'https://github.com/harushuu/SHTabScrollController'
 s.screenshots      = 'https://github.com/harushuu/SHTabScrollController/raw/master/Screenshots.gif'

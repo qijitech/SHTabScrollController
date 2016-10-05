@@ -1,6 +1,6 @@
 PODS:
   - SHButton (0.1.9)
-  - SHTabScrollController (0.3.6):
+  - SHTabScrollController (0.3.7):
     - SHButton (~> 0.1.9)
 
 DEPENDENCIES:
@@ -12,7 +12,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   SHButton: 7f73c7a633fa427fb847aa0427719f102a8dc558
-  SHTabScrollController: c291bd8dc039d650efa98b36a558baed924be3e4
+  SHTabScrollController: 352a0fe29009254639bb1587310a73250ce9db32
 
 PODFILE CHECKSUM: 15d57ed140a1edecbf194e0abca59d84c06908ea
 
