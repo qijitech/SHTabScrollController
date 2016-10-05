@@ -34,6 +34,9 @@
 @property (nonatomic, strong) CIColor *normalColor;
 @property (nonatomic, strong) CIColor *selectedColor;
 
+@property (nonatomic, strong) CIColor *normalBackgroundColor;
+@property (nonatomic, strong) CIColor *selectedBackgroundColor;
+
 @end
 
 @implementation SHColorUtils
@@ -55,15 +58,33 @@
     [SHColorUtils sharedInstance].selectedColor = [CIColor colorWithCGColor:selectedColor.CGColor];
 }
 
-+ (UIColor *)transitionColors:(CGFloat)animationValue {
-    CIColor *normalColor = [SHColorUtils sharedInstance].normalColor;
-    CIColor *selectedColor = [SHColorUtils sharedInstance].selectedColor;
-    CGFloat redDelta = (selectedColor.red - normalColor.red) * animationValue + normalColor.red;
-    CGFloat greenDelta = (selectedColor.green - normalColor.green) * animationValue + normalColor.green;
-    CGFloat blueDelta = (selectedColor.blue - normalColor.blue) * animationValue + normalColor.blue;
-    CGFloat alphaDelta = (selectedColor.alpha - normalColor.alpha) * animationValue + normalColor.alpha;
++ (void)normalBackgroundColor:(UIColor *)normalBackgroundColor {
+    [SHColorUtils sharedInstance].normalBackgroundColor = [CIColor colorWithCGColor:normalBackgroundColor.CGColor];
+}
+
++ (void)selectedBackgroundColor:(UIColor *)selectedBackgroundColor {
+    [SHColorUtils sharedInstance].selectedBackgroundColor = [CIColor colorWithCGColor:selectedBackgroundColor.CGColor];
+}
+
++ (UIColor *)transitionFromColor:(CIColor *)fromColor toColor:(CIColor *)toColor animationValue:(CGFloat)animationValue {
+    CGFloat redDelta = (toColor.red - fromColor.red) * animationValue + fromColor.red;
+    CGFloat greenDelta = (toColor.green - fromColor.green) * animationValue + fromColor.green;
+    CGFloat blueDelta = (toColor.blue - fromColor.blue) * animationValue + fromColor.blue;
+    CGFloat alphaDelta = (toColor.alpha - fromColor.alpha) * animationValue + fromColor.alpha;
     UIColor *currentColor = [UIColor colorWithRed:redDelta green:greenDelta blue:blueDelta alpha:alphaDelta];
     return currentColor;
+}
+
++ (UIColor *)transitionColors:(CGFloat)animationValue {
+    return [SHColorUtils transitionFromColor:[SHColorUtils sharedInstance].normalColor
+                                     toColor:[SHColorUtils sharedInstance].selectedColor
+                              animationValue:animationValue];
+}
+
++ (UIColor *)transitionBackgroundColors:(CGFloat)animationValue {
+    return [SHColorUtils transitionFromColor:[SHColorUtils sharedInstance].normalBackgroundColor
+                                     toColor:[SHColorUtils sharedInstance].selectedBackgroundColor
+                              animationValue:animationValue];
 }
 
 

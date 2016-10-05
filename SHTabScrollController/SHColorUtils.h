@@ -36,6 +36,11 @@
 + (void)normalColor:(UIColor *)normalColor;
 + (void)selectedColor:(UIColor *)selectedColor;
 
++ (void)normalBackgroundColor:(UIColor *)normalBackgroundColor;
++ (void)selectedBackgroundColor:(UIColor *)selectedBackgroundColor;
+
 + (UIColor *)transitionColors:(CGFloat)animationValue;
+
++ (UIColor *)transitionBackgroundColors:(CGFloat)animationValue;
 
 @end

@@ -92,6 +92,16 @@
 
 # pragma mark - published API
 
+- (void)setNormalBackgroundColor:(UIColor *)normalBackgroundColor {
+    _normalBackgroundColor = normalBackgroundColor;
+    self.backgroundColor = !self.isSelectedStatus ? self.normalBackgroundColor : self.selectedbackgroundColor;
+}
+
+- (void)setSelectedbackgroundColor:(UIColor *)selectedbackgroundColor {
+    _selectedbackgroundColor = selectedbackgroundColor;
+    self.backgroundColor = !self.isSelectedStatus ? self.normalBackgroundColor : self.selectedbackgroundColor;
+}
+
 - (void)setNormalBottomLineColor:(UIColor *)normalBottomLineColor {
     _normalBottomLineColor = normalBottomLineColor;
     self.lineView.backgroundColor = self.normalBottomLineColor;
@@ -110,6 +120,7 @@
         self.highlightImageView.alpha = animationValue;
         self.normalImageView.alpha = 1 - animationValue;
     }
+    self.backgroundColor = [SHColorUtils transitionBackgroundColors:animationValue];
     self.lineView.backgroundColor = self.normalBottomLineColor;
     if (animationValue == 1.f) {
         self.lineView.backgroundColor = self.selectedBottomLineColor;
@@ -125,6 +136,7 @@
         self.highlightImageView.alpha = self.isSelectedStatus;
         self.normalImageView.alpha = !self.isSelectedStatus;
     }
+    self.backgroundColor = !self.isSelectedStatus ? self.normalBackgroundColor : self.selectedbackgroundColor;
 }
 
 - (void)updateButtonStatus {

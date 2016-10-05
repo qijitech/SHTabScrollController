@@ -59,6 +59,13 @@ typedef void(^SHTabIndexHandle)(NSInteger index);
 // default is 0.f height, if you need some custom view, you can changed this,
 @property (nonatomic, assign) CGFloat tabBottomViewHeight;
 
+// default is nil
+@property (nonatomic, strong) UIColor *normalTabButtonBackgroundColor;
+
+// default is nil
+@property (nonatomic, strong) UIColor *selectedTabButtonbackgroundColor;
+
+
 // default init method with titles, do not care about switch controllers,
 // will auto switch when tap or scroll
 + (SHTabScrollController *)setupTitles:(NSArray *)titles

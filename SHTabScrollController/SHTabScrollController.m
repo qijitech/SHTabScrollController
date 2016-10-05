@@ -153,6 +153,12 @@
             if (self.selectedTabBottomLineColor) {
                 tabButton.selectedBottomLineColor = self.selectedTabBottomLineColor;
             }
+            if (self.normalTabButtonBackgroundColor) {
+                tabButton.normalBackgroundColor = self.normalTabButtonBackgroundColor;
+            }
+            if (self.selectedTabButtonbackgroundColor) {
+                tabButton.selectedbackgroundColor = self.selectedTabButtonbackgroundColor;
+            }
             tabButton.frame = CGRectMake(tabButtonWidth * idx, 0, tabButtonWidth, self.tabButtonHeight);
             tabButton.tag = idx;
             [tabButton addTarget:self action:@selector(tabButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
@@ -170,6 +176,12 @@
             }
             if (self.selectedTabBottomLineColor) {
                 tabButton.selectedBottomLineColor = self.selectedTabBottomLineColor;
+            }
+            if (self.normalTabButtonBackgroundColor) {
+                tabButton.normalBackgroundColor = self.normalTabButtonBackgroundColor;
+            }
+            if (self.selectedTabButtonbackgroundColor) {
+                tabButton.selectedbackgroundColor = self.selectedTabButtonbackgroundColor;
             }
             tabButton.frame = CGRectMake(tabButtonWidth * idx, 0, tabButtonWidth, self.tabButtonHeight);
             tabButton.tag = idx;
@@ -205,6 +217,16 @@
 - (void)setSelectedTitleColor:(UIColor *)selectedTitleColor {
     _selectedTitleColor = selectedTitleColor;
     [SHColorUtils selectedColor:selectedTitleColor];
+}
+
+- (void)setNormalTabButtonBackgroundColor:(UIColor *)normalTabButtonBackgroundColor {
+    _normalTabButtonBackgroundColor = normalTabButtonBackgroundColor;
+    [SHColorUtils normalBackgroundColor:normalTabButtonBackgroundColor];
+}
+
+- (void)setSelectedTabButtonbackgroundColor:(UIColor *)selectedTabButtonbackgroundColor {
+    _selectedTabButtonbackgroundColor = selectedTabButtonbackgroundColor;
+    [SHColorUtils selectedBackgroundColor:selectedTabButtonbackgroundColor];
 }
 
 #pragma mark - Published API

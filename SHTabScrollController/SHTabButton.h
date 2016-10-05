@@ -38,6 +38,8 @@
 @property (nonatomic, strong) UIFont *defaultFont;
 @property (nonatomic, strong) UIColor *normalBottomLineColor;
 @property (nonatomic, strong) UIColor *selectedBottomLineColor;
+@property (nonatomic, strong) UIColor *normalBackgroundColor;
+@property (nonatomic, strong) UIColor *selectedbackgroundColor;
 
 - (instancetype)initWithTitle:(NSString *)title
              normalTitleColor:(UIColor *)normalTitleColor

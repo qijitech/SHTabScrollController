@@ -105,6 +105,12 @@ Enjoy yourself!
 
 // default is 0.f height, if you need some custom view, you can changed this,
 @property (nonatomic, assign) CGFloat tabBottomViewHeight;
+
+// default is nil
+@property (nonatomic, strong) UIColor *normalTabButtonBackgroundColor;
+
+// default is nil
+@property (nonatomic, strong) UIColor *selectedTabButtonbackgroundColor;
 ```
 
 ## Requirements
