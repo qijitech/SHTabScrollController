@@ -1,18 +1,18 @@
 //
-//  SHSecnodTableViewController.m
+//  SHTableViewController.m
 //  SHTabScrollController
 //
 //  Created by shuu on 7/30/16.
 //  Copyright © 2016 @harushuu. All rights reserved.
 //
 
-#import "SHSecnodTableViewController.h"
+#import "SHTableViewController.h"
 
-@interface SHSecnodTableViewController ()
+@interface SHTableViewController ()
 
 @end
 
-@implementation SHSecnodTableViewController
+@implementation SHTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -28,11 +28,12 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"tab1"];
+    static NSString *identifier = @"SHTableViewControllerCell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"tab1"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    cell.textLabel.text = [NSString stringWithFormat:@"tab 1 - cell %ld", indexPath.row];
+    cell.textLabel.text = [NSString stringWithFormat:@"cell %ld", indexPath.row];
     return cell;
 }
 

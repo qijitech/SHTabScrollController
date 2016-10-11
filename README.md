@@ -14,7 +14,7 @@
 With [CocoaPods](http://cocoapods.org/), add this line to your `Podfile`.
 
 ```
-pod 'SHTabScrollController', '~> 0.3.7'
+pod 'SHTabScrollController', '~> 0.3.8'
 ```
 
 and run `pod install`, then you're all done!
@@ -111,6 +111,14 @@ Enjoy yourself!
 
 // default is nil
 @property (nonatomic, strong) UIColor *selectedTabButtonbackgroundColor;
+
+// default tabButtonFillScreenWidth = tab button items count <= 3
+// if YES, tab button width = screen width / 3.
+// if NO, tab button width = title width + tabButtonPadding.
+@property (nonatomic, assign) BOOL tabButtonsFillScreenWidth;
+
+// only available if tabButtonsFillScreenWidth = NO; default is 40.f,
+@property (nonatomic, assign) CGFloat tabButtonTitlePadding;
 ```
 
 ## Requirements

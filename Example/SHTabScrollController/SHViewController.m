@@ -8,9 +8,7 @@
 
 #import "SHViewController.h"
 #import <SHTabScrollController/SHTabScrollController.h>
-#import "SHFirstTableViewController.h"
-#import "SHSecnodTableViewController.h"
-#import "SHThirdTableViewController.h"
+#import "SHTableViewController.h"
 #import <SHButton/SHButton.h>
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
@@ -50,9 +48,8 @@
 
 - (void)setupTabScrollController {
     if (!self.onlyImage) {
-        NSArray *titles = @[@"tab0", @"tab1", @"tab2"];
-        NSArray *controllers = @[[[SHFirstTableViewController alloc] init], [[SHSecnodTableViewController alloc] init], [[SHThirdTableViewController alloc] init]];
-        
+        NSArray *titles = @[@"tab0", @"tab1_tab1", @"tab2", @"tab3_tab3_tab3_tab3", @"tab4", @"tab5_tab5_tab5"];
+        NSArray *controllers = @[[[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init]];
         SHTabScrollController *tabScrollController = [SHTabScrollController setupTitles:titles controllers:controllers tabIndexHandle:^(NSInteger index) {
             NSString *status = [NSString stringWithFormat:@"current tab is %ld", index];
             NSLog(@"%@", status);
@@ -69,7 +66,7 @@
     } else {
         NSArray *normalImages = @[@"tabNormal", @"tabNormal", @"tabNormal"];
         NSArray *highlightImages = @[@"tabHighlight", @"tabHighlight", @"tabHighlight"];
-        NSArray *controllers = @[[[SHFirstTableViewController alloc] init], [[SHSecnodTableViewController alloc] init], [[SHThirdTableViewController alloc] init]];
+        NSArray *controllers = @[[[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init]];
         SHTabScrollController *tabScrollController = [SHTabScrollController setupNormalImages:normalImages highlightImages:highlightImages controllers:controllers tabIndexHandle:^(NSInteger index) {
             NSString *status = [NSString stringWithFormat:@"current tab is %ld", index];
             NSLog(@"%@", status);

@@ -65,6 +65,13 @@ typedef void(^SHTabIndexHandle)(NSInteger index);
 // default is nil
 @property (nonatomic, strong) UIColor *selectedTabButtonbackgroundColor;
 
+// default tabButtonFillScreenWidth = tab button items count <= 3
+// if YES, tab button width = screen width / 3.
+// if NO, tab button width = title width + tabButtonPadding.
+@property (nonatomic, assign) BOOL tabButtonsFillScreenWidth;
+
+// only available if tabButtonsFillScreenWidth = NO; default is 30.f,
+@property (nonatomic, assign) CGFloat tabButtonTitlePadding;
 
 // default init method with titles, do not care about switch controllers,
 // will auto switch when tap or scroll

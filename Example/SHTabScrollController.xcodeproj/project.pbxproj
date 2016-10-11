@@ -17,9 +17,7 @@
 		6003F5A7195388D20070C39A /* SHViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5A6195388D20070C39A /* SHViewController.m */; };
 		6003F5A9195388D20070C39A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5A8195388D20070C39A /* Images.xcassets */; };
 		A85D01341D94D7FA00799CD7 /* SHDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A85D01331D94D7FA00799CD7 /* SHDemoViewController.m */; };
-		A8E5935A1D4CA91C0015085B /* SHFirstTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A8E593591D4CA91C0015085B /* SHFirstTableViewController.m */; };
-		A8E5935D1D4CA9430015085B /* SHSecnodTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A8E5935C1D4CA9430015085B /* SHSecnodTableViewController.m */; };
-		A8E593601D4CA9660015085B /* SHThirdTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A8E5935F1D4CA9660015085B /* SHThirdTableViewController.m */; };
+		A8E5935A1D4CA91C0015085B /* SHTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A8E593591D4CA91C0015085B /* SHTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,12 +43,8 @@
 		A0A5C46C0449CB7A23F58A5E /* Pods-SHTabScrollController_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SHTabScrollController_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SHTabScrollController_Example/Pods-SHTabScrollController_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		A85D01321D94D7FA00799CD7 /* SHDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHDemoViewController.h; sourceTree = "<group>"; };
 		A85D01331D94D7FA00799CD7 /* SHDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHDemoViewController.m; sourceTree = "<group>"; };
-		A8E593581D4CA91C0015085B /* SHFirstTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHFirstTableViewController.h; sourceTree = "<group>"; };
-		A8E593591D4CA91C0015085B /* SHFirstTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHFirstTableViewController.m; sourceTree = "<group>"; };
-		A8E5935B1D4CA9430015085B /* SHSecnodTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHSecnodTableViewController.h; sourceTree = "<group>"; };
-		A8E5935C1D4CA9430015085B /* SHSecnodTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHSecnodTableViewController.m; sourceTree = "<group>"; };
-		A8E5935E1D4CA9660015085B /* SHThirdTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHThirdTableViewController.h; sourceTree = "<group>"; };
-		A8E5935F1D4CA9660015085B /* SHThirdTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHThirdTableViewController.m; sourceTree = "<group>"; };
+		A8E593581D4CA91C0015085B /* SHTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHTableViewController.h; sourceTree = "<group>"; };
+		A8E593591D4CA91C0015085B /* SHTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SHTableViewController.m; sourceTree = "<group>"; };
 		AA716DB33EA947AEA3908D59 /* Pods-SHTabScrollController_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SHTabScrollController_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-SHTabScrollController_Example/Pods-SHTabScrollController_Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -109,12 +103,8 @@
 				6003F59D195388D20070C39A /* SHAppDelegate.m */,
 				A85D01321D94D7FA00799CD7 /* SHDemoViewController.h */,
 				A85D01331D94D7FA00799CD7 /* SHDemoViewController.m */,
-				A8E593581D4CA91C0015085B /* SHFirstTableViewController.h */,
-				A8E593591D4CA91C0015085B /* SHFirstTableViewController.m */,
-				A8E5935B1D4CA9430015085B /* SHSecnodTableViewController.h */,
-				A8E5935C1D4CA9430015085B /* SHSecnodTableViewController.m */,
-				A8E5935E1D4CA9660015085B /* SHThirdTableViewController.h */,
-				A8E5935F1D4CA9660015085B /* SHThirdTableViewController.m */,
+				A8E593581D4CA91C0015085B /* SHTableViewController.h */,
+				A8E593591D4CA91C0015085B /* SHTableViewController.m */,
 				6003F5A5195388D20070C39A /* SHViewController.h */,
 				6003F5A6195388D20070C39A /* SHViewController.m */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -269,10 +259,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A8E5935D1D4CA9430015085B /* SHSecnodTableViewController.m in Sources */,
 				6003F59E195388D20070C39A /* SHAppDelegate.m in Sources */,
-				A8E593601D4CA9660015085B /* SHThirdTableViewController.m in Sources */,
-				A8E5935A1D4CA91C0015085B /* SHFirstTableViewController.m in Sources */,
+				A8E5935A1D4CA91C0015085B /* SHTableViewController.m in Sources */,
 				6003F5A7195388D20070C39A /* SHViewController.m in Sources */,
 				A85D01341D94D7FA00799CD7 /* SHDemoViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,

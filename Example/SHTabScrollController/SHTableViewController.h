@@ -1,5 +1,5 @@
 //
-//  SHThirdTableViewController.h
+//  SHTableViewController.h
 //  SHTabScrollController
 //
 //  Created by shuu on 7/30/16.
@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SHThirdTableViewController : UITableViewController
+@interface SHTableViewController : UITableViewController
+@property (nonatomic, strong) NSString *title;
 
 @end
