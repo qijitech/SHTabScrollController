@@ -125,6 +125,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationController.navigationBar.translucent = NO;
     self.view.backgroundColor = [UIColor whiteColor];
     [self setupChildViewControllers];
     [self setupTabButtons];
@@ -133,7 +134,7 @@
 }
 
 - (void)viewWillLayoutSubviews {
-    self.contentScrollView.frame = CGRectMake(0, self.tabButtonHeight + self.tabBottomViewHeight, SCREEN_WIDTH, self.view.bounds.size.height - self.tabButtonHeight);
+    self.contentScrollView.frame = CGRectMake(0, CGRectGetMaxY(self.tabBottomView.frame), SCREEN_WIDTH, self.view.bounds.size.height - self.tabButtonHeight);
     self.contentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * self.controllersArray.count, self.view.bounds.size.height - self.tabButtonHeight);
 }
 
@@ -236,8 +237,6 @@
         controller.view.frame = CGRectMake(SCREEN_WIDTH * idx, 0, self.contentScrollView.bounds.size.width, self.contentScrollView.bounds.size.height);
         [self.contentScrollView addSubview:controller.view];
     }];
-    self.contentScrollView.frame = CGRectMake(0, self.tabButtonHeight + self.tabBottomViewHeight, SCREEN_WIDTH, self.view.bounds.size.height - self.tabButtonHeight);
-    self.contentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * self.controllersArray.count, self.view.bounds.size.height - self.tabButtonHeight);
     self.currentControllerIndex = 0;
 }
 
