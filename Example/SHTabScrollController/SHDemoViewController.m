@@ -13,6 +13,7 @@
 @interface SHDemoViewController ()
 @property (nonatomic, strong) SHButton *onlyImageDemoButton;
 @property (nonatomic, strong) SHButton *onlyTitleDemoButton;
+@property (nonatomic, strong) SHButton *customDemoButton;
 
 @end
 
@@ -22,6 +23,7 @@
     [super viewDidLoad];
     [self.view addSubview:self.onlyTitleDemoButton];
     [self.view addSubview:self.onlyImageDemoButton];
+    [self.view addSubview:self.customDemoButton];
 }
 
 - (void)pushTabWithImageViewController {
@@ -31,6 +33,11 @@
 
 - (void)pushTabWithTitleViewController {
     SHViewController *viewController = [[SHViewController alloc] initWithTitle];
+    [self presentViewController:viewController animated:YES completion:nil];
+}
+
+- (void)pushTabWithCustomViewController {
+    SHViewController *viewController = [[SHViewController alloc] initWithCustom];
     [self presentViewController:viewController animated:YES completion:nil];
 }
 
@@ -56,6 +63,18 @@
         [_onlyTitleDemoButton addTarget:self action:@selector(pushTabWithTitleViewController) forControlEvents:UIControlEventTouchUpInside];
     }
     return _onlyTitleDemoButton;
+}
+
+- (SHButton *)customDemoButton {
+    if (!_customDemoButton) {
+        _customDemoButton = [[SHButton alloc] init];
+        [_customDemoButton setTitle:@"Custom" forState:UIControlStateNormal];
+        [_customDemoButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        _customDemoButton.bounds = CGRectMake(0, 0, 100.f, 44.f);
+        _customDemoButton.center = CGPointMake(self.view.center.x, self.view.center.y + 150.f);
+        [_customDemoButton addTarget:self action:@selector(pushTabWithCustomViewController) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _customDemoButton;
 }
 
 

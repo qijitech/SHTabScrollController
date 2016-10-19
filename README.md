@@ -13,7 +13,7 @@
 With [CocoaPods](http://cocoapods.org/), add this line to your `Podfile`.
 
 ```
-pod 'SHTabScrollController', '~> 0.4.1'
+pod 'SHTabScrollController', '~> 0.4.2'
 ```
 
 and run `pod install`, then you're all done!
@@ -118,6 +118,29 @@ Enjoy yourself!
 
 // only available if tabButtonsFillScreenWidth = NO; default is 40.f,
 @property (nonatomic, assign) CGFloat tabButtonTitlePadding;
+
+
+/*---- bottom method just test ----*/
+@property (nonatomic, strong) SHScrollView *contentScrollView;
+
+// default init method with custom button, do not care about switch controllers,
+// will auto switch when tap or scroll
+// in this method, all tab button change animation will hidden. But will show in next version ^_^.
+// if used SHButton, will had a good animation for touch action.
+// will auto calculate width in next version if buttonsWidth array is nil.
++ (SHTabScrollController *)setupTabButtons:(NSArray *)tabButtons
+                              buttonsWidth:(NSArray *)buttonsWidth // @[@10.f, @20.f, ....];
+                               controllers:(NSArray *)controllers;
+
+// if you need custom full tab button, you should call this method
+// in this method, all tab button change animation will hidden. But will show in next version ^_^.
+// if used SHButton, will had a good animation for touch action.
+// will auto calculate width in next version if buttonsWidth array is nil.
++ (SHTabScrollController *)setupTabButtons:(NSArray *)tabButtons
+                              buttonsWidth:(NSArray *)buttonsWidth // @[@10.f, @20.f, ....];
+                               controllers:(NSArray *)controllers
+                            tabIndexHandle:(SHTabIndexHandle)tabIndexHandle;
+
 ```
 
 ## Requirements

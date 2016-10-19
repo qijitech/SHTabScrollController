@@ -30,6 +30,7 @@
 #import <UIKit/UIKit.h>
 
 typedef void(^SHTabIndexHandle)(NSInteger index);
+@class SHScrollView;
 
 @interface SHTabScrollController : UIViewController
 
@@ -95,6 +96,25 @@ typedef void(^SHTabIndexHandle)(NSInteger index);
                                  controllers:(NSArray *)controllers
                               tabIndexHandle:(SHTabIndexHandle)tabIndexHandle;
 
+/*---- bottom method just test ----*/
+@property (nonatomic, strong) SHScrollView *contentScrollView;
 
+// default init method with custom button, do not care about switch controllers,
+// will auto switch when tap or scroll
+// in this method, all tab button change animation will hidden. But will show in next version ^_^.
+// if used SHButton, will had a good animation for touch action.
+// will auto calculate width in next version if buttonsWidth array is nil.
++ (SHTabScrollController *)setupTabButtons:(NSArray *)tabButtons
+                              buttonsWidth:(NSArray *)buttonsWidth // @[@10.f, @20.f, ....];
+                               controllers:(NSArray *)controllers;
+
+// if you need custom full tab button, you should call this method
+// in this method, all tab button change animation will hidden. But will show in next version ^_^.
+// if used SHButton, will had a good animation for touch action.
+// will auto calculate width in next version if buttonsWidth array is nil.
++ (SHTabScrollController *)setupTabButtons:(NSArray *)tabButtons
+                              buttonsWidth:(NSArray *)buttonsWidth // @[@10.f, @20.f, ....];
+                               controllers:(NSArray *)controllers
+                            tabIndexHandle:(SHTabIndexHandle)tabIndexHandle;
 
 @end

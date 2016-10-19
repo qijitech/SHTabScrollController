@@ -17,6 +17,8 @@
 @interface SHViewController ()
 @property (nonatomic, strong) SHButton *topLabelButton;
 @property (nonatomic, assign) BOOL onlyImage;
+@property (nonatomic, assign) BOOL custom;
+@property (nonatomic, strong) NSMutableArray *buttons;
 
 @end
 
@@ -36,6 +38,13 @@
     return self;
 }
 
+- (instancetype)initWithCustom {
+    if (self = [super init]) {
+        self.custom = YES;
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self setupViews];
@@ -46,7 +55,41 @@
     [self.view addSubview:self.topLabelButton];
 }
 
+- (void)changedButtonAnimation:(NSInteger)index {
+    for (SHButton *button in self.buttons) {
+        UIColor *currentColor = button.tag == index ? [UIColor blackColor] : [UIColor redColor];
+        UIColor *backGroundColor = button.tag == index ? [UIColor lightGrayColor] : [UIColor whiteColor];
+        button.backgroundColor = backGroundColor;
+        [button setTitleColor:currentColor forState:UIControlStateNormal];
+    }
+}
+
 - (void)setupTabScrollController {
+    if (self.custom) {
+        self.buttons = [NSMutableArray array];
+        NSMutableArray *widths = [NSMutableArray array];
+        for (int i = 0; i < 6; i++) {
+            SHButton *button = [[SHButton alloc] init];
+            [button setTitle:[NSString stringWithFormat:@"tab %d", i] forState:UIControlStateNormal];
+            [button setImage:[UIImage imageNamed:@"tabNormal"] forState:UIControlStateNormal];
+            [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+            button.backgroundColor = [UIColor whiteColor];
+            self.buttons[i] = button;
+            widths[i] = @(50 + i * 30);
+        }
+        NSArray *controllers = @[[[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init]];
+        
+        SHTabScrollController *tabScrollController = [SHTabScrollController setupTabButtons:self.buttons buttonsWidth:widths controllers:controllers tabIndexHandle:^(NSInteger index) {
+            NSString *status = [NSString stringWithFormat:@"current tab is %ld", index];
+            NSLog(@"%@", status);
+            [self.topLabelButton setTitle:status forState:UIControlStateNormal];
+            [self changedButtonAnimation:index];
+        }];
+        [self addChildViewController:tabScrollController];
+        tabScrollController.view.frame = CGRectMake(0, CGRectGetMaxY(self.topLabelButton.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.topLabelButton.frame));
+        [self.view addSubview:tabScrollController.view];
+        return;
+    }
     if (!self.onlyImage) {
         NSArray *titles = @[@"tab0", @"tab1_tab1", @"tab2", @"tab3_tab3_tab3_tab3", @"tab4", @"tab5_tab5_tab5"];
         NSArray *controllers = @[[[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init]];

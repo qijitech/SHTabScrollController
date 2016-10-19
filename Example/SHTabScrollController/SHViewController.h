@@ -14,4 +14,6 @@
 
 - (instancetype)initWithImage;
 
+- (instancetype)initWithCustom;
+
 @end

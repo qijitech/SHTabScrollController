@@ -45,7 +45,6 @@
 @property (nonatomic, assign) NSInteger currenTabButtonIndex;
 @property (nonatomic, strong) NSArray *controllersArray;
 @property (nonatomic, assign) NSInteger currentControllerIndex;
-@property (nonatomic, strong) SHScrollView *contentScrollView;
 @property (nonatomic, assign, getter=isUserTouched) BOOL userTouched;
 @property (nonatomic, strong) UIView *lineView;
 
@@ -112,6 +111,28 @@
     return tabScrollController;
 }
 
++ (SHTabScrollController *)setupTabButtons:(NSArray *)tabButtons buttonsWidth:(NSArray *)buttonsWidth controllers:(NSArray *)controllers {
+    if (buttonsWidth.count != controllers.count) {
+        NSLog(@"Please checkout your dataSource, buttonsWidth count is %ld, but controllers count is %ld", buttonsWidth.count, controllers.count);
+        return nil;
+    }
+    SHTabScrollController * tabScrollController = [[SHTabScrollController alloc] init];
+    tabScrollController.tabButtonsFillScreenWidth = NO;
+    tabScrollController.controllersArray = controllers;
+    tabScrollController.tabButtonsArray = tabButtons;
+    tabScrollController.tabButtonWidthArray = buttonsWidth;
+    tabScrollController.tabButtonType = SHTabButtonTypeCustom;
+    return tabScrollController;
+}
+
++ (SHTabScrollController *)setupTabButtons:(NSArray *)tabButtons buttonsWidth:(NSArray *)buttonsWidth controllers:(NSArray *)controllers tabIndexHandle:(SHTabIndexHandle)tabIndexHandle {
+    SHTabScrollController *tabScrollController = [SHTabScrollController setupTabButtons:tabButtons buttonsWidth:buttonsWidth controllers:controllers];
+    if (tabIndexHandle) {
+        tabScrollController.tabIndexHandle = tabIndexHandle;
+    }
+    return tabScrollController;
+}
+
 - (instancetype)init {
     if (self = [super init]) {
         self.normalTitleColor = [UIColor blackColor];
@@ -158,7 +179,13 @@
     if (self.tabButtonType == SHTabButtonTypeOnlyImage) {
         [self setupTabButtonsOnlyImages];
     }
+    if (self.tabButtonType == SHTabButtonTypeCustom) {
+        [self setupTabButtonsCustom];
+    }
     self.currenTabButtonIndex = 0;
+    if (self.tabButtonType == SHTabButtonTypeCustom) {
+        return;
+    }
     [self.tabButtonScrollView addSubview:self.lineView];
     [self.tabButtonsArray[0] updateButtonStatus];
 }
@@ -208,6 +235,19 @@
         [self.tabButtonsArray addObject:tabButton];
         [self.tabButtonScrollView addSubview:tabButton];
         tabButtonScrollViewContentSizeWidth += tabButtonWidth;
+    }];
+    self.tabButtonScrollView.contentSize = CGSizeMake(tabButtonScrollViewContentSizeWidth, self.tabButtonHeight);
+}
+
+- (void)setupTabButtonsCustom {
+    __block CGFloat tabButtonScrollViewContentSizeWidth = 0;
+    [self.tabButtonsArray enumerateObjectsUsingBlock:^(SHButton *button, NSUInteger idx, BOOL * _Nonnull stop) {
+        button.tag = idx;
+        CGFloat width = ((NSNumber *)self.tabButtonWidthArray[idx]).floatValue;
+        button.frame =  CGRectMake(tabButtonScrollViewContentSizeWidth, 0, width, self.tabButtonHeight);
+        [button addTarget:self action:@selector(tabButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.tabButtonScrollView addSubview:button];
+        tabButtonScrollViewContentSizeWidth += width;
     }];
     self.tabButtonScrollView.contentSize = CGSizeMake(tabButtonScrollViewContentSizeWidth, self.tabButtonHeight);
 }
@@ -293,11 +333,13 @@
     NSUInteger rightIndex = leftIndex + 1;
     CGFloat scaleRight = value - leftIndex;
     CGFloat scaleLeft = 1 - scaleRight;
-    SHTabButton *leftButton = self.tabButtonsArray[leftIndex];
-    leftButton.animationValue = scaleLeft;
-    if (rightIndex < self.tabButtonsArray.count && scrollView.contentOffset.x > 0) {
-        SHTabButton *buttonRight = self.tabButtonsArray[rightIndex];
-        buttonRight.animationValue = scaleRight;
+    if (self.tabButtonType != SHTabButtonTypeCustom) {
+        SHTabButton *leftButton = self.tabButtonsArray[leftIndex];
+        leftButton.animationValue = scaleLeft;
+        if (rightIndex < self.tabButtonsArray.count && scrollView.contentOffset.x > 0) {
+            SHTabButton *buttonRight = self.tabButtonsArray[rightIndex];
+            buttonRight.animationValue = scaleRight;
+        }
     }
     __block CGFloat leftTabWidth = 0.f;
     __block CGFloat delta = 0.f;
@@ -326,7 +368,9 @@
     if (self.tabButtonScrollView.contentOffset.x + self.tabButtonScrollView.frame.size.width < leftTabWidth + currentTabWidth) {
         self.tabButtonScrollView.contentOffset = CGPointMake(leftTabWidth + currentTabWidth - self.tabButtonScrollView.frame.size.width, 0);
     }
-    self.lineView.frame = CGRectMake(currentTabX, self.tabButtonHeight - 2, currentWidth, 2);
+    if (self.tabButtonType != SHTabButtonTypeCustom) {
+        self.lineView.frame = CGRectMake(currentTabX, self.tabButtonHeight - 2, currentWidth, 2);
+    }
     if (currentTabX + currentWidth > self.tabButtonScrollView.frame.size.width) {
         self.tabButtonScrollView.contentOffset = CGPointMake(currentTabX + currentWidth - self.tabButtonScrollView.frame.size.width, 0);
     }
@@ -336,7 +380,9 @@
     if (scrollView != self.contentScrollView) {
         return;
     }
-    self.lineView.hidden = YES;
+    if (self.tabButtonType != SHTabButtonTypeCustom) {
+        self.lineView.hidden = YES;
+    }
     if (self.userTouched) {
         self.userTouched = NO;
     }
@@ -346,18 +392,22 @@
     if (scrollView != self.contentScrollView) {
         return;
     }
-    self.lineView.hidden = YES;
+    if (self.tabButtonType != SHTabButtonTypeCustom) {
+        self.lineView.hidden = YES;
+    }
     NSUInteger index = scrollView.contentOffset.x / self.contentScrollView.frame.size.width;
     NSInteger didEndScrollButtonTag = index;
-    if (didEndScrollButtonTag == self.currenTabButtonIndex) {
+    if (didEndScrollButtonTag == self.currenTabButtonIndex && self.tabButtonType != SHTabButtonTypeCustom) {
         [self.tabButtonsArray[didEndScrollButtonTag] setupCurrentLineColor];
         return;
     }
     if (self.tabIndexHandle) {
         self.tabIndexHandle(didEndScrollButtonTag);
     }
-    [self.tabButtonsArray[self.currenTabButtonIndex] updateButtonStatus];
-    [self.tabButtonsArray[didEndScrollButtonTag] updateButtonStatus];
+    if (self.tabButtonType != SHTabButtonTypeCustom) {
+        [self.tabButtonsArray[self.currenTabButtonIndex] updateButtonStatus];
+        [self.tabButtonsArray[didEndScrollButtonTag] updateButtonStatus];
+    }
     self.currenTabButtonIndex = didEndScrollButtonTag;
 }
 
@@ -370,8 +420,10 @@
     CGFloat offsetY = self.contentScrollView.contentOffset.y;
     CGPoint offset = CGPointMake(offsetX, offsetY);
     [self.contentScrollView setContentOffset:offset animated:YES];
-    [self.tabButtonsArray[self.currenTabButtonIndex] updateButtonStatus];
-    [button updateButtonStatus];
+    if (self.tabButtonType != SHTabButtonTypeCustom) {
+        [self.tabButtonsArray[self.currenTabButtonIndex] updateButtonStatus];
+        [button updateButtonStatus];
+    }
     self.currenTabButtonIndex = button.tag;
     if (self.tabIndexHandle) {
         self.tabIndexHandle(button.tag);
