@@ -13,7 +13,7 @@
 With [CocoaPods](http://cocoapods.org/), add this line to your `Podfile`.
 
 ```
-pod 'SHTabScrollController', '~> 0.4.2'
+pod 'SHTabScrollController', '~> 0.4.3'
 ```
 
 and run `pod install`, then you're all done!
@@ -122,6 +122,10 @@ Enjoy yourself!
 
 /*---- bottom method just test ----*/
 @property (nonatomic, strong) SHScrollView *contentScrollView;
+@property (nonatomic, strong) SHScrollView *tabButtonScrollView;
+@property (nonatomic, strong) UIView *contentBackgroundView;
+@property (nonatomic, strong) UIView *tabButtonBackgroundView;
+@property (nonatomic, strong) UIView *backgroundView;
 
 // default init method with custom button, do not care about switch controllers,
 // will auto switch when tap or scroll

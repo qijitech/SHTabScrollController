@@ -98,6 +98,10 @@ typedef void(^SHTabIndexHandle)(NSInteger index);
 
 /*---- bottom method just test ----*/
 @property (nonatomic, strong) SHScrollView *contentScrollView;
+@property (nonatomic, strong) SHScrollView *tabButtonScrollView;
+@property (nonatomic, strong) UIView *contentBackgroundView;
+@property (nonatomic, strong) UIView *tabButtonBackgroundView;
+@property (nonatomic, strong) UIView *backgroundView;
 
 // default init method with custom button, do not care about switch controllers,
 // will auto switch when tap or scroll

@@ -52,7 +52,6 @@
 @property (nonatomic, strong) NSArray *highlightImagesArray;
 @property (nonatomic, assign) SHTabButtonType tabButtonType;
 
-@property (nonatomic, strong) SHScrollView *tabButtonScrollView;
 @property (nonatomic, strong) NSMutableArray *tabButtonWidthArray;
 
 @end
@@ -147,6 +146,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    [self setupBackgroundViews];
     [self setupChildViewControllers];
     [self setupTabButtons];
     [self setupTabBottomView];
@@ -166,6 +166,12 @@
 - (void)viewWillLayoutSubviews {
     self.contentScrollView.frame = CGRectMake(0, CGRectGetMaxY(self.tabBottomView.frame), SCREEN_WIDTH, self.view.bounds.size.height - self.tabButtonHeight);
     self.contentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * self.controllersArray.count, self.view.bounds.size.height - self.tabButtonHeight);
+    self.backgroundView.frame = self.view.bounds;
+    self.contentBackgroundView.frame = CGRectMake(0, CGRectGetMaxY(self.tabBottomView.frame), SCREEN_WIDTH, self.view.bounds.size.height - self.tabButtonHeight);
+    self.tabButtonBackgroundView.frame = CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.tabBottomView.frame));
+    self.contentBackgroundView.backgroundColor = [UIColor redColor];
+    self.backgroundView.backgroundColor = [UIColor yellowColor];
+    self.tabButtonBackgroundView.backgroundColor = [UIColor lightGrayColor];
 }
 
 #pragma mark - Setup Tab Button
@@ -268,6 +274,12 @@
 }
 
 #pragma mark - Private API
+
+- (void)setupBackgroundViews {
+    [self.view addSubview:self.backgroundView];
+    [self.backgroundView addSubview:self.contentBackgroundView];
+    [self.backgroundView addSubview:self.tabButtonBackgroundView];
+}
 
 - (void)setupChildViewControllers {
     for (UIViewController *viewController in self.controllersArray) {
@@ -501,5 +513,27 @@
     }
     return _tabButtonWidthArray;
 }
+
+- (UIView *)backgroundView {
+    if (!_backgroundView) {
+        _backgroundView = [[UIView alloc] init];
+    }
+    return _backgroundView;
+}
+
+- (UIView *)contentBackgroundView {
+    if (!_contentBackgroundView) {
+        _contentBackgroundView = [[UIView alloc] init];
+    }
+    return _contentBackgroundView;
+}
+
+- (UIView *)tabButtonBackgroundView {
+    if (!_tabButtonBackgroundView) {
+        _tabButtonBackgroundView = [[UIView alloc] init];
+    }
+    return _tabButtonBackgroundView;
+}
+
 
 @end
