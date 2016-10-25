@@ -79,6 +79,11 @@ Enjoy yourself!
                                  controllers:(NSArray *)controllers
                               tabIndexHandle:(SHTabIndexHandle)tabIndexHandle;
 
+// the background view will be automatically resized to track the size of the view. this will be placed as a subview of the view behind all subViews.  default may be non-nil for some devices.
+@property (nonatomic, strong) UIView *contentBackgroundView;
+@property (nonatomic, strong) UIView *tabButtonBackgroundView;
+@property (nonatomic, strong) UIView *backgroundView;
+
 // default is blackColor
 @property (nonatomic, strong) UIColor *normalTitleColor;
 
@@ -123,9 +128,6 @@ Enjoy yourself!
 /*---- bottom method just test ----*/
 @property (nonatomic, strong) SHScrollView *contentScrollView;
 @property (nonatomic, strong) SHScrollView *tabButtonScrollView;
-@property (nonatomic, strong) UIView *contentBackgroundView;
-@property (nonatomic, strong) UIView *tabButtonBackgroundView;
-@property (nonatomic, strong) UIView *backgroundView;
 
 // default init method with custom button, do not care about switch controllers,
 // will auto switch when tap or scroll
