@@ -169,9 +169,6 @@
     self.backgroundView.frame = self.view.bounds;
     self.contentBackgroundView.frame = CGRectMake(0, CGRectGetMaxY(self.tabBottomView.frame), SCREEN_WIDTH, self.view.bounds.size.height - self.tabButtonHeight);
     self.tabButtonBackgroundView.frame = CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.tabBottomView.frame));
-    self.contentBackgroundView.backgroundColor = [UIColor redColor];
-    self.backgroundView.backgroundColor = [UIColor yellowColor];
-    self.tabButtonBackgroundView.backgroundColor = [UIColor lightGrayColor];
 }
 
 #pragma mark - Setup Tab Button
