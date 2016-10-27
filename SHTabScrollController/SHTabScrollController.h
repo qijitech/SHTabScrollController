@@ -79,6 +79,10 @@ typedef void(^SHTabIndexHandle)(NSInteger index);
 // only available if tabButtonsFillScreenWidth = NO; default is 30.f,
 @property (nonatomic, assign) CGFloat tabButtonTitlePadding;
 
+// default is nil, equal to self.view.frame.size.width
+@property (nonatomic, assign) CGFloat width;
+
+
 // default init method with titles, do not care about switch controllers,
 // will auto switch when tap or scroll
 + (SHTabScrollController *)setupTitles:(NSArray *)titles
@@ -104,7 +108,6 @@ typedef void(^SHTabIndexHandle)(NSInteger index);
 /*---- bottom method just test ----*/
 @property (nonatomic, strong) SHScrollView *contentScrollView;
 @property (nonatomic, strong) SHScrollView *tabButtonScrollView;
-
 
 // default init method with custom button, do not care about switch controllers,
 // will auto switch when tap or scroll

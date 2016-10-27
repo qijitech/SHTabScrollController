@@ -34,7 +34,7 @@
 #import <SHButton/SHButton.h>
 #import "SHTypeHeader.h"
 
-#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
+#define SCREEN_WIDTH (self.width ? : [UIScreen mainScreen].bounds.size.width)
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
 @interface SHTabScrollController () <UIScrollViewDelegate>
