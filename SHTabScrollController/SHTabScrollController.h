@@ -82,6 +82,8 @@ typedef void(^SHTabIndexHandle)(NSInteger index);
 // default is nil, equal to self.view.frame.size.width
 @property (nonatomic, assign) CGFloat width;
 
+// default is nil, set this property if you wanna changed selected TabButton
+@property (nonatomic, assign) NSInteger changedTabButtonIndex;
 
 // default init method with titles, do not care about switch controllers,
 // will auto switch when tap or scroll

@@ -13,7 +13,7 @@
 With [CocoaPods](http://cocoapods.org/), add this line to your `Podfile`.
 
 ```
-pod 'SHTabScrollController', '~> 0.4.5'
+pod 'SHTabScrollController', '~> 0.4.6'
 ```
 
 and run `pod install`, then you're all done!
@@ -126,6 +126,10 @@ Enjoy yourself!
 
 // default is nil, equal to self.view.frame.size.width
 @property (nonatomic, assign) CGFloat width;
+
+// default is nil, set this property if you wanna changed selected TabButton
+@property (nonatomic, assign) NSInteger changedTabButtonIndex;
+
 
 
 /*---- bottom method just test ----*/

@@ -151,6 +151,8 @@
     [self setupTabButtons];
     [self setupTabBottomView];
     [self setupScrollView];
+    [self.view layoutIfNeeded];
+    [self.view setNeedsLayout];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -318,6 +320,14 @@
 - (void)setSelectedTabButtonbackgroundColor:(UIColor *)selectedTabButtonbackgroundColor {
     _selectedTabButtonbackgroundColor = selectedTabButtonbackgroundColor;
     [SHColorUtils selectedBackgroundColor:selectedTabButtonbackgroundColor];
+}
+
+- (void)setChangedTabButtonIndex:(NSInteger)changedTabButtonIndex {
+    if (changedTabButtonIndex >= self.tabButtonsArray.count) {
+        return;
+    }
+    _changedTabButtonIndex = changedTabButtonIndex;
+    [self tabButtonPressed:self.tabButtonsArray[changedTabButtonIndex]];
 }
 
 #pragma mark - ScrollViewAnimation
