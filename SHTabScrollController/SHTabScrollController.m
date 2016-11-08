@@ -166,8 +166,8 @@
 }
 
 - (void)viewWillLayoutSubviews {
-    self.contentScrollView.frame = CGRectMake(0, CGRectGetMaxY(self.tabBottomView.frame), SCREEN_WIDTH, self.view.bounds.size.height - self.tabButtonHeight);
-    self.contentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * self.controllersArray.count, self.view.bounds.size.height - self.tabButtonHeight);
+    self.contentScrollView.frame = CGRectMake(0, CGRectGetMaxY(self.tabBottomView.frame), SCREEN_WIDTH, self.view.bounds.size.height - _tabButtonHeight - _tabBottomViewHeight);
+    self.contentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * self.controllersArray.count, self.view.bounds.size.height - _tabButtonHeight - _tabBottomViewHeight);
     self.backgroundView.frame = self.view.bounds;
     self.contentBackgroundView.frame = CGRectMake(0, CGRectGetMaxY(self.tabBottomView.frame), SCREEN_WIDTH, self.view.bounds.size.height - self.tabButtonHeight);
     self.tabButtonBackgroundView.frame = CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.tabBottomView.frame));
