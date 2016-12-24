@@ -9,6 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface SHTableViewController : UITableViewController
-@property (nonatomic, strong) NSString *title;
 
 @end

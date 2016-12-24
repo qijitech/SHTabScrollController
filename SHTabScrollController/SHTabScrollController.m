@@ -34,8 +34,8 @@
 #import <SHButton/SHButton.h>
 #import "SHTypeHeader.h"
 
-#define SCREEN_WIDTH (self.width ? : [UIScreen mainScreen].bounds.size.width)
-#define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
+#define SH_DEFAULT_WIDTH (self.width ? : [UIScreen mainScreen].bounds.size.width)
+#define SH_DEFAULT_HEIGHT [UIScreen mainScreen].bounds.size.height
 
 @interface SHTabScrollController () <UIScrollViewDelegate>
 
@@ -52,7 +52,7 @@
 @property (nonatomic, strong) NSArray *highlightImagesArray;
 @property (nonatomic, assign) SHTabButtonType tabButtonType;
 
-@property (nonatomic, strong) NSMutableArray *tabButtonWidthArray;
+@property (nonatomic, strong) NSMutableArray<NSNumber *> *tabButtonWidthArray;
 
 @end
 
@@ -143,6 +143,8 @@
     return self;
 }
 
+#pragma mark - Life Circle
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -166,17 +168,17 @@
 }
 
 - (void)viewWillLayoutSubviews {
-    self.contentScrollView.frame = CGRectMake(0, CGRectGetMaxY(self.tabBottomView.frame), SCREEN_WIDTH, self.view.bounds.size.height - _tabButtonHeight - _tabBottomViewHeight);
-    self.contentScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * self.controllersArray.count, self.view.bounds.size.height - _tabButtonHeight - _tabBottomViewHeight);
+    self.contentScrollView.frame = CGRectMake(0, CGRectGetMaxY(self.tabBottomView.frame), SH_DEFAULT_WIDTH, self.view.bounds.size.height - _tabButtonHeight - _tabBottomViewHeight);
+    self.contentScrollView.contentSize = CGSizeMake(SH_DEFAULT_WIDTH * self.controllersArray.count, self.view.bounds.size.height - _tabButtonHeight - _tabBottomViewHeight);
     self.backgroundView.frame = self.view.bounds;
-    self.contentBackgroundView.frame = CGRectMake(0, CGRectGetMaxY(self.tabBottomView.frame), SCREEN_WIDTH, self.view.bounds.size.height - self.tabButtonHeight);
-    self.tabButtonBackgroundView.frame = CGRectMake(0, 0, SCREEN_WIDTH, CGRectGetMaxY(self.tabBottomView.frame));
+    self.contentBackgroundView.frame = CGRectMake(0, CGRectGetMaxY(self.tabBottomView.frame), SH_DEFAULT_WIDTH, self.view.bounds.size.height - self.tabButtonHeight);
+    self.tabButtonBackgroundView.frame = CGRectMake(0, 0, SH_DEFAULT_WIDTH, CGRectGetMaxY(self.tabBottomView.frame));
 }
 
 #pragma mark - Setup Tab Button
 
 - (void)setupTabButtons {
-    self.tabButtonScrollView.frame = CGRectMake(0, 0, SCREEN_WIDTH, self.tabButtonHeight);
+    self.tabButtonScrollView.frame = CGRectMake(0, 0, SH_DEFAULT_WIDTH, self.tabButtonHeight);
     [self.view addSubview:self.tabButtonScrollView];
     if (self.tabButtonType == SHTabButtonTypeOnlyTitle) {
         [self setupTabButtonsOnlyTitles];
@@ -196,7 +198,7 @@
 }
 
 - (void)setupTabButtonsOnlyTitles {
-    __block CGFloat tabButtonFillWidth = SCREEN_WIDTH / self.tabButtonTitlesArray.count;
+    __block CGFloat tabButtonFillWidth = SH_DEFAULT_WIDTH / self.tabButtonTitlesArray.count;
     __block CGFloat tabButtonScrollViewContentSizeWidth = 0;
     [self.tabButtonTitlesArray enumerateObjectsUsingBlock:^(NSString *title, NSUInteger idx, BOOL * _Nonnull stop) {
         SHTabButton *tabButton = [[SHTabButton alloc] initWithTitle:title normalTitleColor:self.normalTitleColor selectedTitleColor:self.selectedTitleColor];
@@ -222,7 +224,7 @@
 }
 
 - (void)setupTabButtonsOnlyImages {
-    __block CGFloat tabButtonFillWidth = SCREEN_WIDTH / self.normalImagesArray.count;
+    __block CGFloat tabButtonFillWidth = SH_DEFAULT_WIDTH / self.normalImagesArray.count;
     __block CGFloat tabButtonScrollViewContentSizeWidth = 0;
     [self.normalImagesArray enumerateObjectsUsingBlock:^(NSString *image, NSUInteger idx, BOOL * _Nonnull stop) {
         SHTabButton *tabButton = [[SHTabButton alloc] initWithNormalImage:image highlightImage:self.highlightImagesArray[idx]];
@@ -246,14 +248,66 @@
 
 - (void)setupTabButtonsCustom {
     __block CGFloat tabButtonScrollViewContentSizeWidth = 0;
-    [self.tabButtonsArray enumerateObjectsUsingBlock:^(SHButton *button, NSUInteger idx, BOOL * _Nonnull stop) {
-        button.tag = idx;
-        CGFloat width = ((NSNumber *)self.tabButtonWidthArray[idx]).floatValue;
-        button.frame =  CGRectMake(tabButtonScrollViewContentSizeWidth, 0, width, self.tabButtonHeight);
-        [button addTarget:self action:@selector(tabButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-        [self.tabButtonScrollView addSubview:button];
-        tabButtonScrollViewContentSizeWidth += width;
-    }];
+    if (self.skipControllerIndexs.count) {
+        __block NSInteger skipCount = 0;
+        [self.tabButtonsArray enumerateObjectsUsingBlock:^(SHButton *button, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([self.skipControllerIndexs containsObject:@(idx)]) {
+                button.enabled = NO;
+                skipCount++;
+            } else {
+                [button addTarget:self action:@selector(tabButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+            }
+            button.tag = idx - skipCount;
+            CGFloat width = ((NSNumber *)self.tabButtonWidthArray[idx]).floatValue;
+            button.frame =  CGRectMake(tabButtonScrollViewContentSizeWidth, 0, width, self.tabButtonHeight);
+            [self.tabButtonScrollView addSubview:button];
+            tabButtonScrollViewContentSizeWidth += width;
+        }];
+        
+        NSMutableArray *needSkipButtons = @[].mutableCopy;
+        for (NSNumber *skipIdx in self.skipControllerIndexs) {
+            [needSkipButtons addObject:self.tabButtonsArray[skipIdx.integerValue]];
+        }
+        NSMutableArray *tempButtons = self.tabButtonsArray.mutableCopy;
+        [tempButtons removeObjectsInArray:needSkipButtons];
+        self.tabButtonsArray = tempButtons;
+        
+        [self.skipControllerIndexs enumerateObjectsUsingBlock:^(NSNumber *skipIdx, NSUInteger idx, BOOL * _Nonnull stop) {
+            if (skipIdx.integerValue) {
+                NSInteger mergeWidth = self.tabButtonWidthArray[skipIdx.integerValue].integerValue + self.tabButtonWidthArray[skipIdx.integerValue - 1].integerValue;
+                self.tabButtonWidthArray[skipIdx.integerValue - 1] = @(mergeWidth);
+            }
+        }];
+
+        BOOL needMergeFirstTabButton = !self.skipControllerIndexs[0].integerValue;
+        NSInteger firstTabButtonWidth;
+        if (needMergeFirstTabButton) {
+            firstTabButtonWidth = self.tabButtonWidthArray[0].integerValue;
+        }
+        
+        NSMutableArray *needSkipButtonWidths = @[].mutableCopy;
+        for (NSNumber *skipIdx in self.skipControllerIndexs) {
+            [needSkipButtonWidths addObject:self.tabButtonWidthArray[skipIdx.integerValue]];
+        }
+        NSMutableArray<NSNumber *> *tempButtonWidths = self.tabButtonWidthArray.mutableCopy;
+        [tempButtonWidths removeObjectsInArray:needSkipButtonWidths];
+
+        if (needMergeFirstTabButton) {
+            tempButtonWidths[0] = @(tempButtonWidths[0].integerValue + firstTabButtonWidth);
+        }
+        
+        self.tabButtonWidthArray = tempButtonWidths;
+        
+    } else {
+        [self.tabButtonsArray enumerateObjectsUsingBlock:^(SHButton *button, NSUInteger idx, BOOL * _Nonnull stop) {
+            button.tag = idx;
+            CGFloat width = ((NSNumber *)self.tabButtonWidthArray[idx]).floatValue;
+            button.frame =  CGRectMake(tabButtonScrollViewContentSizeWidth, 0, width, self.tabButtonHeight);
+            [button addTarget:self action:@selector(tabButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+            [self.tabButtonScrollView addSubview:button];
+            tabButtonScrollViewContentSizeWidth += width;
+        }];
+    }
     self.tabButtonScrollView.contentSize = CGSizeMake(tabButtonScrollViewContentSizeWidth, self.tabButtonHeight);
 }
 
@@ -287,20 +341,37 @@
 }
 
 - (void)setupTabBottomView {
-    self.tabBottomView.frame = CGRectMake(0, CGRectGetMaxY([(SHButton *)self.tabButtonsArray[0] frame]), SCREEN_WIDTH, self.tabBottomViewHeight);
+    self.tabBottomView.frame = CGRectMake(0, CGRectGetMaxY([(SHButton *)self.tabButtonsArray[0] frame]), SH_DEFAULT_WIDTH, self.tabBottomViewHeight);
     [self.view addSubview:self.tabBottomView];
 }
 
 - (void)setupScrollView {
     [self.view addSubview:self.contentScrollView];
     [self.controllersArray enumerateObjectsUsingBlock:^(UIViewController *controller, NSUInteger idx, BOOL * _Nonnull stop) {
-        controller.view.frame = CGRectMake(SCREEN_WIDTH * idx, 0, self.contentScrollView.bounds.size.width, self.contentScrollView.bounds.size.height);
+        controller.view.frame = CGRectMake(SH_DEFAULT_WIDTH * idx, 0, self.contentScrollView.bounds.size.width, self.contentScrollView.bounds.size.height);
         [self.contentScrollView addSubview:controller.view];
     }];
     self.currentControllerIndex = 0;
 }
 
 #pragma mark - Published API
+
+- (void)setSkipControllerIndexs:(NSArray *)skipControllerIndexs {
+    _skipControllerIndexs = skipControllerIndexs;
+    if (!skipControllerIndexs.count) {
+        return;
+    }
+    [self.skipControllerIndexs sortedArrayUsingComparator:^NSComparisonResult(NSNumber *obj1, NSNumber *obj2) {
+        return obj1.integerValue < obj2.integerValue;
+    }];
+    NSMutableArray *needSkipControllers = @[].mutableCopy;
+    for (NSNumber *skipIdx in self.skipControllerIndexs) {
+        [needSkipControllers addObject:self.controllersArray[skipIdx.integerValue]];
+    }
+    NSMutableArray *tempControllers = self.controllersArray.mutableCopy;
+    [tempControllers removeObjectsInArray:needSkipControllers];
+    self.controllersArray = tempControllers;
+}
 
 - (void)setNormalTitleColor:(UIColor *)normalTitleColor {
     _normalTitleColor = normalTitleColor;

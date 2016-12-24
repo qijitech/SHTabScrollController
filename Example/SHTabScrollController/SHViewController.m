@@ -85,6 +85,7 @@
             [self.topLabelButton setTitle:status forState:UIControlStateNormal];
             [self changedButtonAnimation:index];
         }];
+        tabScrollController.skipControllerIndexs = @[@0, @1];
         [self addChildViewController:tabScrollController];
         tabScrollController.view.frame = CGRectMake(0, CGRectGetMaxY(self.topLabelButton.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.topLabelButton.frame));
         [self.view addSubview:tabScrollController.view];

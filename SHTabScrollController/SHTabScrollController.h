@@ -111,6 +111,11 @@ typedef void(^SHTabIndexHandle)(NSInteger index);
 @property (nonatomic, strong) SHScrollView *contentScrollView;
 @property (nonatomic, strong) SHScrollView *tabButtonScrollView;
 
+// just test, only support custom tabButtons
+// invoke this method after init;
+// setup skip controler index, like @[@0, @2];
+@property (nonatomic, strong) NSArray<NSNumber *> *skipControllerIndexs;
+
 // default init method with custom button, do not care about switch controllers,
 // will auto switch when tap or scroll
 // in this method, all tab button change animation will hidden. But will show in next version ^_^.
