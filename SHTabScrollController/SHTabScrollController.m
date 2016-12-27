@@ -498,7 +498,11 @@
         return;
     }
     if (self.tabIndexHandle) {
-        self.tabIndexHandle(self.tabButtonTagArray[didEndScrollButtonTag].integerValue);
+        if (self.skipControllerIndexs.count) {
+            self.tabIndexHandle(self.tabButtonTagArray[didEndScrollButtonTag].integerValue);
+        } else {
+            self.tabIndexHandle(didEndScrollButtonTag);
+        }
     }
     if (self.tabButtonType != SHTabButtonTypeCustom) {
         [self.tabButtonsArray[self.currenTabButtonIndex] updateButtonStatus];
@@ -521,8 +525,12 @@
         [button updateButtonStatus];
     }
     self.currenTabButtonIndex = button.tag;
-    if (self.tabIndexHandle) {
+    if (self.skipControllerIndexs.count) {
         self.tabIndexHandle(self.tabButtonTagArray[button.tag].integerValue);
+    } else {
+        self.tabIndexHandle(button.tag);
+    }
+    if (self.tabIndexHandle) {
     }
     if (self.tabButtonsFillScreenWidth) {
         return;
