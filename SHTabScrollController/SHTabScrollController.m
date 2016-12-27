@@ -525,12 +525,12 @@
         [button updateButtonStatus];
     }
     self.currenTabButtonIndex = button.tag;
-    if (self.skipControllerIndexs.count) {
-        self.tabIndexHandle(self.tabButtonTagArray[button.tag].integerValue);
-    } else {
-        self.tabIndexHandle(button.tag);
-    }
     if (self.tabIndexHandle) {
+        if (self.skipControllerIndexs.count) {
+            self.tabIndexHandle(self.tabButtonTagArray[button.tag].integerValue);
+        } else {
+            self.tabIndexHandle(button.tag);
+        }
     }
     if (self.tabButtonsFillScreenWidth) {
         return;
