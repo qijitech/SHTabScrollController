@@ -53,6 +53,7 @@
 @property (nonatomic, assign) SHTabButtonType tabButtonType;
 
 @property (nonatomic, strong) NSMutableArray<NSNumber *> *tabButtonWidthArray;
+@property (nonatomic, strong) NSMutableArray<NSNumber *> *tabButtonTagArray;
 
 @end
 
@@ -296,6 +297,11 @@
             tempButtonWidths[0] = @(tempButtonWidths[0].integerValue + firstTabButtonWidth);
         }
         
+        for (int i = 0; i < self.tabButtonWidthArray.count; i++) {
+            [self.tabButtonTagArray addObject:@(i)];
+        }
+        [self.tabButtonTagArray removeObjectsInArray:self.skipControllerIndexs];
+        
         self.tabButtonWidthArray = tempButtonWidths;
         
     } else {
@@ -492,7 +498,7 @@
         return;
     }
     if (self.tabIndexHandle) {
-        self.tabIndexHandle(didEndScrollButtonTag);
+        self.tabIndexHandle(self.tabButtonTagArray[didEndScrollButtonTag].integerValue);
     }
     if (self.tabButtonType != SHTabButtonTypeCustom) {
         [self.tabButtonsArray[self.currenTabButtonIndex] updateButtonStatus];
@@ -516,7 +522,7 @@
     }
     self.currenTabButtonIndex = button.tag;
     if (self.tabIndexHandle) {
-        self.tabIndexHandle(button.tag);
+        self.tabIndexHandle(self.tabButtonTagArray[button.tag].integerValue);
     }
     if (self.tabButtonsFillScreenWidth) {
         return;
@@ -613,5 +619,11 @@
     return _tabButtonBackgroundView;
 }
 
+- (NSMutableArray<NSNumber *> *)tabButtonTagArray {
+    if (!_tabButtonTagArray) {
+        _tabButtonTagArray = @[].mutableCopy;
+    }
+    return _tabButtonTagArray;
+}
 
 @end
