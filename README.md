@@ -13,7 +13,7 @@
 With [CocoaPods](http://cocoapods.org/), add this line to your `Podfile`.
 
 ```
-pod 'SHTabScrollController', '~> 0.4.11'
+pod 'SHTabScrollController', '~> 0.4.12'
 ```
 
 and run `pod install`, then you're all done!
@@ -140,6 +140,10 @@ Enjoy yourself!
 // invoke this method after init;
 // setup skip controler index, like @[@0, @2];
 @property (nonatomic, strong) NSArray *skipControllerIndexs;
+
+// just test, only reset controller.view.width
+// invoke this method after init, please;
+@property (nonatomic, assign) CGFloat contentWidthScale;
 
 // default init method with custom button, do not care about switch controllers,
 // will auto switch when tap or scroll

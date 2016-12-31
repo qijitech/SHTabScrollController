@@ -112,9 +112,13 @@ typedef void(^SHTabIndexHandle)(NSInteger index);
 @property (nonatomic, strong) SHScrollView *tabButtonScrollView;
 
 // just test, only support custom tabButtons
-// invoke this method after init;
+// invoke this method after init, please;
 // setup skip controler index, like @[@0, @2];
 @property (nonatomic, strong) NSArray<NSNumber *> *skipControllerIndexs;
+
+// just test, only reset controller.view.width
+// invoke this method after init, please;
+@property (nonatomic, assign) CGFloat contentWidthScale;
 
 // default init method with custom button, do not care about switch controllers,
 // will auto switch when tap or scroll

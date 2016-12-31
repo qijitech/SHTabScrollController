@@ -56,12 +56,15 @@
 }
 
 - (void)changedButtonAnimation:(NSInteger)index {
-    for (SHButton *button in self.buttons) {
-        UIColor *currentColor = button.tag == index ? [UIColor blackColor] : [UIColor redColor];
-        UIColor *backGroundColor = button.tag == index ? [UIColor lightGrayColor] : [UIColor whiteColor];
-        button.backgroundColor = backGroundColor;
-        [button setTitleColor:currentColor forState:UIControlStateNormal];
-    }
+    [self.buttons enumerateObjectsUsingBlock:^(UIButton *button, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (idx != 1 && idx != 3) {
+            NSLog(@"index %ld -- button.tag %ld -- selected %d", index, button.tag, button.tag == index);
+            UIColor *currentColor = idx == index ? [UIColor blackColor] : [UIColor redColor];
+            UIColor *backGroundColor = idx == index ? [UIColor lightGrayColor] : [UIColor whiteColor];
+            button.backgroundColor = backGroundColor;
+            [button setTitleColor:currentColor forState:UIControlStateNormal];
+        }
+    }];
 }
 
 - (void)setupTabScrollController {
@@ -70,6 +73,7 @@
         NSMutableArray *widths = [NSMutableArray array];
         for (int i = 0; i < 6; i++) {
             SHButton *button = [[SHButton alloc] init];
+            button.tag = i;
             [button setTitle:[NSString stringWithFormat:@"tab %d", i] forState:UIControlStateNormal];
             [button setImage:[UIImage imageNamed:@"tabNormal"] forState:UIControlStateNormal];
             [button setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
@@ -78,18 +82,19 @@
             widths[i] = @(50 + i * 30);
         }
         NSArray *controllers = @[[[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init]];
-        
+        __weak SHViewController *weakSelf = self;
         SHTabScrollController *tabScrollController = [SHTabScrollController setupTabButtons:self.buttons buttonsWidth:widths controllers:controllers tabIndexHandle:^(NSInteger index) {
             NSString *status = [NSString stringWithFormat:@"current tab is %ld", index];
             NSLog(@"%@", status);
-            [self.topLabelButton setTitle:status forState:UIControlStateNormal];
-            [self changedButtonAnimation:index];
+            [weakSelf.topLabelButton setTitle:status forState:UIControlStateNormal];
+            [weakSelf changedButtonAnimation:index];
         }];
+        tabScrollController.contentWidthScale = 0.7;
         tabScrollController.skipControllerIndexs = @[@1, @3];
         [self addChildViewController:tabScrollController];
         tabScrollController.view.frame = CGRectMake(0, CGRectGetMaxY(self.topLabelButton.frame), SCREEN_WIDTH, SCREEN_HEIGHT - CGRectGetMaxY(self.topLabelButton.frame));
         [self.view addSubview:tabScrollController.view];
-//        tabScrollController.changedTabButtonIndex = 1;
+//        tabScrollController.changedTabButtonIndex = 2;
         return;
     }
     if (!self.onlyImage) {

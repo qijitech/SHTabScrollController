@@ -36,6 +36,7 @@
 
 #define SH_DEFAULT_WIDTH (self.width ? : [UIScreen mainScreen].bounds.size.width)
 #define SH_DEFAULT_HEIGHT [UIScreen mainScreen].bounds.size.height
+#define SH_CONTENT_WIDTH SH_DEFAULT_WIDTH * self.contentWidthScale
 
 @interface SHTabScrollController () <UIScrollViewDelegate>
 
@@ -140,6 +141,7 @@
         self.tabButtonHeight = 40.f;
         self.tabBottomViewHeight = 0.f;
         self.tabButtonTitlePadding = 30.f;
+        self.contentWidthScale = 1.f;
     }
     return self;
 }
@@ -169,8 +171,8 @@
 }
 
 - (void)viewWillLayoutSubviews {
-    self.contentScrollView.frame = CGRectMake(0, CGRectGetMaxY(self.tabBottomView.frame), SH_DEFAULT_WIDTH, self.view.bounds.size.height - _tabButtonHeight - _tabBottomViewHeight);
-    self.contentScrollView.contentSize = CGSizeMake(SH_DEFAULT_WIDTH * self.controllersArray.count, self.view.bounds.size.height - _tabButtonHeight - _tabBottomViewHeight);
+    self.contentScrollView.frame = CGRectMake(0, CGRectGetMaxY(self.tabBottomView.frame), SH_CONTENT_WIDTH, self.view.bounds.size.height - _tabButtonHeight - _tabBottomViewHeight);
+    self.contentScrollView.contentSize = CGSizeMake(SH_CONTENT_WIDTH * self.controllersArray.count, self.view.bounds.size.height - _tabButtonHeight - _tabBottomViewHeight);
     self.backgroundView.frame = self.view.bounds;
     self.contentBackgroundView.frame = CGRectMake(0, CGRectGetMaxY(self.tabBottomView.frame), SH_DEFAULT_WIDTH, self.view.bounds.size.height - self.tabButtonHeight);
     self.tabButtonBackgroundView.frame = CGRectMake(0, 0, SH_DEFAULT_WIDTH, CGRectGetMaxY(self.tabBottomView.frame));
@@ -354,7 +356,7 @@
 - (void)setupScrollView {
     [self.view addSubview:self.contentScrollView];
     [self.controllersArray enumerateObjectsUsingBlock:^(UIViewController *controller, NSUInteger idx, BOOL * _Nonnull stop) {
-        controller.view.frame = CGRectMake(SH_DEFAULT_WIDTH * idx, 0, self.contentScrollView.bounds.size.width, self.contentScrollView.bounds.size.height);
+        controller.view.frame = CGRectMake(SH_CONTENT_WIDTH * idx, 0, SH_CONTENT_WIDTH, self.contentScrollView.bounds.size.height);
         [self.contentScrollView addSubview:controller.view];
     }];
     self.currentControllerIndex = 0;
