@@ -356,7 +356,7 @@
 - (void)setupScrollView {
     [self.view addSubview:self.contentScrollView];
     [self.controllersArray enumerateObjectsUsingBlock:^(UIViewController *controller, NSUInteger idx, BOOL * _Nonnull stop) {
-        controller.view.frame = CGRectMake(SH_CONTENT_WIDTH * idx, 0, SH_CONTENT_WIDTH, self.contentScrollView.bounds.size.height);
+        controller.view.frame = CGRectMake(SH_CONTENT_WIDTH * idx, 0, self.contentScrollView.bounds.size.width, self.contentScrollView.bounds.size.height);
         [self.contentScrollView addSubview:controller.view];
     }];
     self.currentControllerIndex = 0;
