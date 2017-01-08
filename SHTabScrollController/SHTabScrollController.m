@@ -296,7 +296,11 @@
         [tempButtonWidths removeObjectsInArray:needSkipButtonWidths];
 
         if (needMergeFirstTabButton) {
-            tempButtonWidths[0] = @(tempButtonWidths[0].integerValue + firstTabButtonWidth);
+            if (tempButtons.count == 1) {
+                tempButtonWidths[0] = @(firstTabButtonWidth);
+            } else {
+                tempButtonWidths[0] = @(tempButtonWidths[0].integerValue + firstTabButtonWidth);
+            }
         }
         
         for (int i = 0; i < self.tabButtonWidthArray.count; i++) {
