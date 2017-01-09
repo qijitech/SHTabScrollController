@@ -497,7 +497,10 @@
     if (self.tabButtonType != SHTabButtonTypeCustom) {
         self.lineView.hidden = YES;
     }
-    NSUInteger index = scrollView.contentOffset.x / self.contentScrollView.frame.size.width;
+    
+    CGFloat indexF = scrollView.contentOffset.x / self.contentScrollView.frame.size.width;
+    NSInteger index = roundf(indexF);
+    
     NSInteger didEndScrollButtonTag = index;
     if (didEndScrollButtonTag == self.currenTabButtonIndex && self.tabButtonType != SHTabButtonTypeCustom) {
         [self.tabButtonsArray[didEndScrollButtonTag] setupCurrentLineColor];
