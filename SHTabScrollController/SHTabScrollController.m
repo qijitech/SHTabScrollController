@@ -120,10 +120,23 @@
     SHTabScrollController * tabScrollController = [[SHTabScrollController alloc] init];
     tabScrollController.tabButtonsFillScreenWidth = NO;
     tabScrollController.controllersArray = controllers;
-    tabScrollController.tabButtonsArray = tabButtons;
-    tabScrollController.tabButtonWidthArray = buttonsWidth;
+    tabScrollController.tabButtonsArray = [tabButtons isKindOfClass:[NSArray class]] ? tabButtons.mutableCopy : tabButtons;
+    tabScrollController.tabButtonWidthArray = [buttonsWidth isKindOfClass:[NSArray class]] ? buttonsWidth.mutableCopy : buttonsWidth;
     tabScrollController.tabButtonType = SHTabButtonTypeCustom;
     return tabScrollController;
+}
+
++ (SHTabScrollController *)setupTabButtonTitlePadingInset:(CGFloat)padingInset
+                                               tabButtons:(NSArray *)tabButtons
+                                              controllers:(NSArray *)controllers
+                                           tabIndexHandle:(SHTabIndexHandle)tabIndexHandle {
+    NSMutableArray *buttonsWidth = @[].mutableCopy;
+    for (UIButton *button in tabButtons) {
+        CGSize titleSize = [button.titleLabel systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+        CGSize imageSize = [button.imageView systemLayoutSizeFittingSize:UILayoutFittingCompressedSize];
+        [buttonsWidth addObject:@(padingInset + titleSize.width + imageSize.width)];
+    }
+    return [SHTabScrollController setupTabButtons:tabButtons buttonsWidth:buttonsWidth controllers:controllers tabIndexHandle:tabIndexHandle];
 }
 
 + (SHTabScrollController *)setupTabButtons:(NSArray *)tabButtons buttonsWidth:(NSArray *)buttonsWidth controllers:(NSArray *)controllers tabIndexHandle:(SHTabIndexHandle)tabIndexHandle {

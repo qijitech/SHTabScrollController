@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
 s.name             = 'SHTabScrollController'
-s.version          = '0.4.15'
+s.version          = '0.4.16'
 s.summary          = 'A simple view controller with tab button and childViewController, which has some animation and can be scroll.'
 s.homepage         = 'https://github.com/harushuu/SHTabScrollController'
 s.screenshots      = 'https://github.com/harushuu/SHTabScrollController/raw/master/Screenshots.gif'
@@ -19,5 +19,5 @@ s.platform     = :ios, '8.0'
 s.requires_arc = true
 s.source_files = 'SHTabScrollController/*'
 s.frameworks = 'UIKit'
-s.dependency 'SHButton', '~> 0.1.9'
+s.dependency 'SHButton', '~> 0.2.0'
 end

@@ -83,7 +83,7 @@
         }
         NSArray *controllers = @[[[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init], [[SHTableViewController alloc] init]];
         __weak SHViewController *weakSelf = self;
-        SHTabScrollController *tabScrollController = [SHTabScrollController setupTabButtons:self.buttons buttonsWidth:widths controllers:controllers tabIndexHandle:^(NSInteger index) {
+        SHTabScrollController *tabScrollController = [SHTabScrollController setupTabButtonTitlePadingInset:15.f tabButtons:self.buttons controllers:controllers tabIndexHandle:^(NSInteger index) {
             NSString *status = [NSString stringWithFormat:@"current tab is %ld", index];
             NSLog(@"%@", status);
             [weakSelf.topLabelButton setTitle:status forState:UIControlStateNormal];
