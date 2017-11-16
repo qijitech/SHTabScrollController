@@ -110,6 +110,7 @@ typedef void(^SHTabIndexHandle)(NSInteger index);
 /*---- bottom method just test ----*/
 @property (nonatomic, strong) SHScrollView *contentScrollView;
 @property (nonatomic, strong) SHScrollView *tabButtonScrollView;
+@property (nonatomic, strong, readonly) NSMutableArray *tabButtonsArray;
 
 // just test, only support custom tabButtons
 // invoke this method after init, please;

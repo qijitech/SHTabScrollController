@@ -42,7 +42,7 @@
 
 @property (nonatomic, copy) SHTabIndexHandle tabIndexHandle;
 @property (nonatomic, strong) NSArray *tabButtonTitlesArray;
-@property (nonatomic, strong) NSMutableArray *tabButtonsArray;
+@property (nonatomic, strong, readwrite) NSMutableArray *tabButtonsArray;
 @property (nonatomic, assign) NSInteger currenTabButtonIndex;
 @property (nonatomic, strong) NSArray *controllersArray;
 @property (nonatomic, assign) NSInteger currentControllerIndex;
