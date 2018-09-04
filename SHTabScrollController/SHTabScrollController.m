@@ -286,7 +286,7 @@
         }
         NSMutableArray *tempButtons = self.tabButtonsArray.mutableCopy;
         [tempButtons removeObjectsInArray:needSkipButtons];
-        self.tabButtonsArray = tempButtons;
+        // self.tabButtonsArray = tempButtons;
         
         [self.skipControllerIndexs enumerateObjectsUsingBlock:^(NSNumber *skipIdx, NSUInteger idx, BOOL * _Nonnull stop) {
             if (skipIdx.integerValue) {
@@ -419,7 +419,8 @@
 }
 
 - (void)setChangedTabButtonIndex:(NSInteger)changedTabButtonIndex {
-    if (changedTabButtonIndex >= self.tabButtonsArray.count) {
+    if (changedTabButtonIndex == self.changedTabButtonIndex || 
+        changedTabButtonIndex >= self.tabButtonsArray.count) {
         return;
     }
     _changedTabButtonIndex = changedTabButtonIndex;
