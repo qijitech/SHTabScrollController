@@ -139,6 +139,12 @@ typedef void(^SHTabIndexHandle)(NSInteger index);
                                controllers:(NSArray *)controllers
                             tabIndexHandle:(SHTabIndexHandle)tabIndexHandle;
 
++ (SHTabScrollController *)setupTabButtons:(NSArray *)tabButtons
+                              buttonsWidth:(NSArray *)buttonsWidth
+                               controllers:(NSArray *)controllers
+                             selectedIndex:(NSInteger)index
+                            tabIndexHandle:(SHTabIndexHandle)tabIndexHandle;
+
 // will automatically calculate the width
 // could contain title and image
 // padingInset = leftInset + rightInset

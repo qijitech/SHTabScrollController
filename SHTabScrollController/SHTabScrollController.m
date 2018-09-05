@@ -56,6 +56,8 @@
 @property (nonatomic, strong) NSMutableArray<NSNumber *> *tabButtonWidthArray;
 @property (nonatomic, strong) NSMutableArray<NSNumber *> *tabButtonTagArray;
 
+@property (nonatomic, assign) NSInteger startSelectedIndex; /// 初始化选中tab
+
 @end
 
 @implementation SHTabScrollController
@@ -147,6 +149,19 @@
     return tabScrollController;
 }
 
++ (SHTabScrollController *)setupTabButtons:(NSArray *)tabButtons
+                              buttonsWidth:(NSArray *)buttonsWidth
+                               controllers:(NSArray *)controllers
+                             selectedIndex:(NSInteger)index
+                            tabIndexHandle:(SHTabIndexHandle)tabIndexHandle {
+    SHTabScrollController *tabScrollController = [SHTabScrollController setupTabButtons:tabButtons buttonsWidth:buttonsWidth controllers:controllers];
+    tabScrollController.startSelectedIndex = index;
+    if (tabIndexHandle) {
+        tabScrollController.tabIndexHandle = tabIndexHandle;
+    }
+    return tabScrollController;
+}
+
 - (instancetype)init {
     if (self = [super init]) {
         self.normalTitleColor = [UIColor blackColor];
@@ -189,6 +204,8 @@
     self.backgroundView.frame = self.view.bounds;
     self.contentBackgroundView.frame = CGRectMake(0, CGRectGetMaxY(self.tabBottomView.frame), SH_DEFAULT_WIDTH, self.view.bounds.size.height - self.tabButtonHeight);
     self.tabButtonBackgroundView.frame = CGRectMake(0, 0, SH_DEFAULT_WIDTH, CGRectGetMaxY(self.tabBottomView.frame));
+    
+    [self setChangedTabButtonIndex:_startSelectedIndex];
 }
 
 #pragma mark - Setup Tab Button
@@ -419,7 +436,7 @@
 }
 
 - (void)setChangedTabButtonIndex:(NSInteger)changedTabButtonIndex {
-    if (changedTabButtonIndex == self.changedTabButtonIndex || 
+    if (changedTabButtonIndex == self.changedTabButtonIndex ||
         changedTabButtonIndex >= self.tabButtonsArray.count) {
         return;
     }
