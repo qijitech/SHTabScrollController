@@ -205,7 +205,9 @@
     self.contentBackgroundView.frame = CGRectMake(0, CGRectGetMaxY(self.tabBottomView.frame), SH_DEFAULT_WIDTH, self.view.bounds.size.height - self.tabButtonHeight);
     self.tabButtonBackgroundView.frame = CGRectMake(0, 0, SH_DEFAULT_WIDTH, CGRectGetMaxY(self.tabBottomView.frame));
     
-    [self setChangedTabButtonIndex:_startSelectedIndex];
+    if (_startSelectedIndex > 0) {
+        [self setChangedTabButtonIndex:_startSelectedIndex];
+    }
 }
 
 #pragma mark - Setup Tab Button
