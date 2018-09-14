@@ -340,7 +340,7 @@
         }
         [self.tabButtonTagArray removeObjectsInArray:self.skipControllerIndexs];
         
-        self.tabButtonWidthArray = tempButtonWidths;
+        // self.tabButtonWidthArray = tempButtonWidths;
         
     } else {
         [self.tabButtonsArray enumerateObjectsUsingBlock:^(SHButton *button, NSUInteger idx, BOOL * _Nonnull stop) {
