@@ -588,12 +588,26 @@
             *stop = YES;
         }
     }];
-    if (self.tabButtonScrollView.contentOffset.x > leftTabWidth) {
-        self.tabButtonScrollView.contentOffset = CGPointMake(leftTabWidth, 0);
+  
+    CGFloat currentSizeXOff = button.center.x;
+    CGFloat centerX = self.tabButtonScrollView.center.x;
+    CGFloat scrollXOff = currentSizeXOff - centerX;
+    CGFloat maxXOff = self.tabButtonScrollView.contentSize.width - self.tabButtonScrollView.bounds.size.width;
+    if (currentSizeXOff != centerX) { // 滑动
+      if (scrollXOff < 0 ) {
+        scrollXOff = 0;
+      }
+      if (scrollXOff > 0 && scrollXOff > maxXOff) {
+        scrollXOff = maxXOff;
+      }
+      [self.tabButtonScrollView setContentOffset:CGPointMake(scrollXOff, 0) animated:YES];
     }
-    if (self.tabButtonScrollView.contentOffset.x + self.tabButtonScrollView.frame.size.width < leftTabWidth + currentTabWidth) {
-        self.tabButtonScrollView.contentOffset = CGPointMake(leftTabWidth + currentTabWidth - self.tabButtonScrollView.frame.size.width, 0);
-    }
+//    if (self.tabButtonScrollView.contentOffset.x > leftTabWidth) {
+//        self.tabButtonScrollView.contentOffset = CGPointMake(leftTabWidth, 0);
+//    }
+//    if (self.tabButtonScrollView.contentOffset.x + self.tabButtonScrollView.frame.size.width < leftTabWidth + currentTabWidth) {
+//        self.tabButtonScrollView.contentOffset = CGPointMake(leftTabWidth + currentTabWidth - self.tabButtonScrollView.frame.size.width, 0);
+//    }
 }
 
 #pragma mark - Lazyload
